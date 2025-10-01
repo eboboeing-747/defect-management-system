@@ -1,3 +1,5 @@
+using DmsDb;
+using Microsoft.EntityFrameworkCore;
 
 namespace DmsApi;
 
@@ -12,6 +14,13 @@ public class Program
         builder.Services.AddControllers();
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
+
+        builder.Services.AddDbContext<DmsDbContext>(opt =>
+        {
+            opt.UseNpgsql(
+                builder.Configuration.GetConnectionString(nameof(DmsDbContext))
+            );
+        });
 
         var app = builder.Build();
 
