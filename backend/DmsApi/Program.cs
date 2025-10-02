@@ -1,4 +1,5 @@
 using DmsDb;
+using DmsDb.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace DmsApi;
@@ -21,6 +22,8 @@ public class Program
                 builder.Configuration.GetConnectionString(nameof(DmsDbContext))
             );
         });
+
+        builder.Services.AddScoped<UserRepository>();
 
         var app = builder.Build();
 
