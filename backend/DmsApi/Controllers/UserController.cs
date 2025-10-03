@@ -1,5 +1,6 @@
 using DmsDb.Entity;
-using DmsDb.Repository;
+using DmsDb.Service;
+using DmsDb.Object;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DmsApi.Controller;
@@ -8,27 +9,25 @@ namespace DmsApi.Controller;
 [Route("[controller]")]
 public class UserController
 {
-    private readonly UserRepository _userRepository;
+    private readonly UserService _userService;
 
-    public UserController(UserRepository userController)
+    public UserController(UserService userService)
     {
-        this._userRepository = userController;
+        this._userService = userService;
     }
 
     [HttpGet("Test")]
-    public async Task<IResult> Test()
+    public IResult Test()
     {
         return Results.Ok("ok");
     }
 
     [HttpPost("Register")]
     public async Task<IResult> Register(
-            [FromBody] UserEntity user
+            [FromBody] UserRegister user
     ) {
         Console.WriteLine(user);
 
-        bool isCreated = await this._userRepository.Create(user);
-
-        return isCreated ? Results.Ok() : Results.Conflict<string>("user with such login already exists");
+        return await this._userService.Register(user);
     }
 }
