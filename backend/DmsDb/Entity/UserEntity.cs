@@ -10,5 +10,5 @@ public class UserEntity
     public string LastName { get; set; } = string.Empty;
     public string PfpPath { get; set; } = string.Empty;
     public bool Sex { get; set; }
-    public Guid Role { get; set; }
+    public string Role { get; set; } = string.Empty;
 }
