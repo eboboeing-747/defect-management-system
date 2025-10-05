@@ -45,9 +45,23 @@ public class Program
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(
                         Encoding.UTF8.GetBytes(JwtOptions.ReadConfigurationField(configuration, "SecretKey"))
-                    )
+                    ),
+                    RoleClaimType = "Role"
                 };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        context.Token = context.Request.Cookies["jwtToken"];
+
+                        return Task.CompletedTask;
+                    }
+                };
+
             });
+
+        builder.Services.AddAuthorization();
 
         var app = builder.Build();
 
@@ -59,14 +73,10 @@ public class Program
 
         // app.UseHttpsRedirection();
 
+        app.UseRouting();
+
         app.UseAuthentication();
         app.UseAuthorization();
-
-        // app.Use(async(context, next) => {
-        //     Console.WriteLine($"[middleware logger] {context}");
-        //
-        //     await next.Invoke();
-        // });
 
         app.MapControllers();
 

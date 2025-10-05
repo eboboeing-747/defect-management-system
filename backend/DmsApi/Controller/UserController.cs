@@ -1,9 +1,11 @@
 using DmsDb.Entity;
+using Microsoft.Extensions.Primitives;
 using DmsDb.Service;
 using DmsDb.Object;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using DmsApi.Authorization;
+using System.Security.Claims;
+using System.Collections.Specialized;
 
 namespace DmsApi.Controller;
 
@@ -16,12 +18,6 @@ public class UserController : ControllerBase
     public UserController(UserService userService)
     {
         this._userService = userService;
-    }
-
-    [HttpGet("Test")]
-    public IResult Test()
-    {
-        return Results.Ok("ok");
     }
 
     [HttpPost("Login")]
@@ -38,13 +34,6 @@ public class UserController : ControllerBase
         return Results.Ok(userToReturn);
     }
 
-    [HttpGet("Restricted")]
-    [AuthorizeRole("engineer")]
-    public IResult Restricted()
-    {
-        return Results.Ok("access granted");
-    }
-
     [HttpPost("Register")]
     public async Task<IResult> Register(
         [FromBody] UserRegister user
@@ -52,6 +41,13 @@ public class UserController : ControllerBase
         Console.WriteLine(user);
 
         return await this._userService.Register(user);
+    }
+
+    [HttpGet("Restricted")]
+    [Authorize(Roles = "engineer")]
+    public async Task<IActionResult> DoRestricedAction()
+    {
+        return Ok();
     }
 
     private static void AddJwtToken(string token, HttpContext context)
