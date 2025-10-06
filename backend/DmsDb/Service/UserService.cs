@@ -40,7 +40,7 @@ public class UserService
         return (jwtToken, userToReturn);
     }
 
-    public async Task<IResult> Register(UserRegister user)
+    public async Task<string?> Register(UserRegister user)
     {
         UserEntity userToCreate = new UserEntity
         {
@@ -55,11 +55,11 @@ public class UserService
 
         bool isCreated = await this._userRepository.Create(userToCreate);
 
-        if (isCreated)
-            return Results.Created();
+        if (!isCreated)
+            return null;
 
-        return Results.Conflict($"{{\"error\": \"user with this login already exists\"}}");
-        // return Results.Json(new Dictionary<string, string>)
+        string jwtToken = this.GenerateJwtToken(userToCreate);
+        return jwtToken;
     }
 
     private string GenerateJwtToken(UserEntity user)

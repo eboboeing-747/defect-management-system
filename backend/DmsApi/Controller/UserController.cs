@@ -22,25 +22,39 @@ public class UserController : ControllerBase
 
     [HttpPost("Login")]
     public async Task<IResult> Login(
-        [FromForm] UserCredentials user
+        [FromBody] UserCredentials user
     ) {
+        Console.WriteLine(user);
+
         (string? token, UserReturn? userToReturn) = await this._userService.Login(user.Login, user.Password);
 
         if (token == null)
             return Results.Unauthorized();
 
-        var context = HttpContext;
-        AddJwtToken(token, context);
+        AddJwtToken(token, HttpContext);
         return Results.Ok(userToReturn);
     }
 
     [HttpPost("Register")]
-    public async Task<IResult> Register(
+    public async Task<IActionResult> Register(
         [FromBody] UserRegister user
     ) {
-        Console.WriteLine(user);
+        string? token = await _userService.Register(user);
 
-        return await this._userService.Register(user);
+        if (token == null)
+            return Conflict($"{{\"error\": \"user with this login already exists\"}}");
+
+        AddJwtToken(token, HttpContext);
+        return Created();
+    }
+
+    [HttpGet("Logout")]
+    public async Task<IActionResult> Logout()
+    {
+        string token = "logged-out";
+        AddJwtToken(token, HttpContext);
+
+        return Ok();
     }
 
     [HttpGet("Restricted")]

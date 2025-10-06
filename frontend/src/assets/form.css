@@ -1,0 +1,87 @@
+.page {
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.spacer {
+    height: 25%;
+}
+
+.auth-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    backdrop-filter: blur(8px);
+    padding: 16px;
+    border-radius: 16px;
+    border: 1px solid gray;
+}
+
+.title {
+    text-align: center;
+}
+
+h1 {
+    margin: 20px 0px;
+    font-size: 32px;
+    color: white;
+}
+
+a {
+    color: white;
+}
+
+a:hover {
+    background: transparent;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+input {
+    border-radius: 1000px;
+    border: 2px solid white;
+    padding: 10px 16px;
+    margin: 16px 8px;
+    background: transparent;
+    color: white;
+
+    font-size: 24px;
+}
+
+button {
+    border-radius: 1000px;
+    border: 2px solid white;
+    padding: 10px 16px;
+    margin: 16px 8px;
+    background: white;
+    color: black;
+
+    font-size: 24px;
+}
+
+button:hover {
+    background: transparent;
+    color: white;
+    cursor: pointer;
+}
+
+button:active {
+    background: white;
+    color: black;
+    cursor: pointer;
+}
+
+.error {
+    border-color: red;
+}
+
+.error-display {
+    color: red;
+    height: 30px;
+    text-align: center;
+}

@@ -16,6 +16,28 @@ public class Program
         var configuration = builder.Configuration;
 
         // Add services to the container.
+        string corsPolicy = "localCorsPolicy";
+
+        builder.Services.AddCors(options =>
+        {
+        options.AddPolicy(
+            name: corsPolicy,
+            policy =>
+            {
+            policy
+            .WithOrigins(
+                "http://localhost:5173",
+                "https://localhost:5173",
+                "http://127.0.0.1:5173",
+                "https://127.0.0.1:5173",
+                "http://26.186.13.168:5173",
+                "https://26.186.13.168:5173"
+            )
+            .AllowCredentials()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+            });
+        });
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
@@ -25,7 +47,7 @@ public class Program
         {
             opt.UseNpgsql(
                 builder.Configuration.GetConnectionString(nameof(DmsDbContext))
-            );
+                );
         });
 
         builder.Services.AddScoped<UserRepository>();
@@ -74,6 +96,8 @@ public class Program
         // app.UseHttpsRedirection();
 
         app.UseRouting();
+
+        app.UseCors(corsPolicy);
 
         app.UseAuthentication();
         app.UseAuthorization();
