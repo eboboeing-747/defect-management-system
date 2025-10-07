@@ -121,9 +121,14 @@ async function register() {
 </style>
 
 <style scoped>
+.spacer {
+    height: 14vh;
+}
+
 .sex-picker {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 input[type="radio"] {

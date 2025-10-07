@@ -1,6 +1,6 @@
+@import '@/assets/base.css';
+
 .page {
-    background-size: cover;
-    background-attachment: fixed;
     display: flex;
     align-items: center;
     width: 100vw;
@@ -8,18 +8,13 @@
     flex-direction: column;
 }
 
-.spacer {
-    height: 25%;
-}
-
 .auth-wrapper {
     display: flex;
     flex-direction: column;
     width: 400px;
-    backdrop-filter: blur(8px);
     padding: 16px;
-    border-radius: 16px;
-    border: 1px solid gray;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--border-color);
 }
 
 .title {
@@ -29,11 +24,11 @@
 h1 {
     margin: 20px 0px;
     font-size: 32px;
-    color: white;
+    color: var(--font);
 }
 
 a {
-    color: white;
+    color: var(--font);
 }
 
 a:hover {
@@ -43,19 +38,19 @@ a:hover {
 }
 
 input {
-    border-radius: 1000px;
-    border: 2px solid white;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--border-color);
     padding: 10px 16px;
     margin: 16px 8px;
     background: transparent;
-    color: white;
+    color: var(--font);
 
     font-size: 24px;
 }
 
 button {
-    border-radius: 1000px;
-    border: 2px solid white;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--border-color);
     padding: 10px 16px;
     margin: 16px 8px;
     background: white;
@@ -66,7 +61,7 @@ button {
 
 button:hover {
     background: transparent;
-    color: white;
+    color: var(--font);
     cursor: pointer;
 }
 

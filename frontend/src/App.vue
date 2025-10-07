@@ -6,4 +6,6 @@ import Header from './components/Header.vue';
     <RouterView />
 </template>
 
-<style scoped></style>
+<style>
+@import '@/assets/base.css';
+</style>

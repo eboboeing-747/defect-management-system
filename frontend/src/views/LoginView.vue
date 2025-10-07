@@ -90,5 +90,12 @@ async function login() {
     </div>
 </template>
 
+
+<style scoped>
+.spacer {
+    height: 20vh;
+}
+</style>
+
 <style src="../assets/form.css" scoped>
 </style>

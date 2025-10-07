@@ -1,0 +1,12 @@
+.body {
+    margin: 16px;
+    height: 200px;
+    width: 300px;
+
+
+    border: 1px solid turquoise;
+}
+
+.card-image {
+    object-fit: contain;
+}

@@ -33,7 +33,7 @@ onMounted((): void => {
 <template>
     <header>
         <div>
-
+            {{ userdata.role }}
         </div>
 
         <div class="account-info">
@@ -95,10 +95,14 @@ onMounted((): void => {
 </template>
 
 <style scoped>
+@import '@/assets/base.css';
+
 header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding: 10px;
+    align-items: center;
 }
 
 .account-info {
@@ -117,11 +121,12 @@ header {
 }
 
 .account-modal {
-    border: 1px solid red;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    background: var(--background);
     position: absolute;
-    top: 5vh;
-    right: 5vw;
-    padding: 10px;
+    top: 8vh;
+    right: 2vw;
 }
 
 .account-action-list {
@@ -130,12 +135,14 @@ header {
 }
 
 .account-action {
-    border: 1px solid blue;
-    padding: 10px;
+    border: none;
+    color: var(--font);
+    font-size: var(--font-size);
+    padding: 14px;
     background-color: transparent;
 }
 
 .account-action:hover {
-    background-color: red;
+    background-color: var(--border-color);
 }
 </style>
