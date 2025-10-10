@@ -14,7 +14,7 @@ function handleAccountModal(event: MouseEvent): void {
     if (!isVisibleAccount.value)
         return;
 
-    let accountModal: HTMLElement | null = document.getElementById('account-modal');
+    const accountModal: HTMLElement | null = document.getElementById('account-modal');
 
     if (accountModal === null) {
         console.log('[handleAccountModal] accountModal is null');
@@ -38,7 +38,7 @@ onMounted((): void => {
 
         <div class="account-info">
             <div v-if="userdata.isLogged">{{userdata.firstName}} {{userdata.middleName}}</div>
-            <a v-else>Вы не зарегестрированы</a>
+            <a v-else>not logged in</a>
 
             <div class="spacer">
             </div>
@@ -47,7 +47,7 @@ onMounted((): void => {
                 v-on:click="isVisibleAccount = !isVisibleAccount"
                 v-bind:src="userdata.pfpPath"
                 class="pfp focusable"
-                alt="изображение профиля"
+                alt="profile picture"
             >
         </div>
     </header>
@@ -64,13 +64,13 @@ onMounted((): void => {
             class="account-action-list"
         >
             <button class="account-action">
-                Редактировать профиль
+                edit profile
             </button>
             <button
                 class="account-action"
                 @click="Logout()"
             >
-                Выйти
+                log out
             </button>
         </div>
 
@@ -82,13 +82,13 @@ onMounted((): void => {
                 class="account-action"
                 @click="router.push('/login');"
             >
-                Войти
+                log in
             </button>
             <button
                 class="account-action"
                 @click="router.push('/register');"
             >
-                Зарегистрироваться
+                sign up
             </button>
         </div>
     </div>

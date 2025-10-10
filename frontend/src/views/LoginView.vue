@@ -82,7 +82,7 @@ async function login() {
             <input id="username" class="action-field" name="username" type="text" placeholder="username" required>
             <input id="password" class="action-field" name="password" type="password" placeholder="password" required>
 
-            <button class="action-field">login</button>
+            <button class="action-field">log in</button>
 
             <a class="title" href="/register">dont have an account? register</a>
             <p id="error-display" class="error-display"></p>
@@ -97,5 +97,5 @@ async function login() {
 }
 </style>
 
-<style src="../assets/form.css" scoped>
+<style src="@/assets/form.css" scoped>
 </style>

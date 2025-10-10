@@ -32,7 +32,7 @@ export const useUserDataStore = defineStore('userdata', () => {
         firstName.value = '';
         middleName.value = '';
         lastName.value = '';
-        pfpPath.value = '';
+        pfpPath.value = EMPTY_PFP;
         sex.value = false;
         role.value = '';
     }

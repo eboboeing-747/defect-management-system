@@ -41,11 +41,11 @@ const cards: Ref<IEstateObjectCard[]> = ref([
 
 <template>
     <div class="estate-object-list">
+        <CreateCard />
         <EstateObjectCard
             v-for="card in cards"
             v-bind:object="card"
         />
-        <CreateCard />
     </div>
 </template>
 
