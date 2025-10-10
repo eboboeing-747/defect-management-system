@@ -16,11 +16,12 @@ const props = defineProps<{
         </div>
 
         <button
+            type="button"
             class="remove"
             @click="emit('remove')"
         >
             <img
-                src="/trash-bin.png"
+                src="/trash-bin-dark.png"
                 alt="remove"
             >
         </button>
@@ -37,10 +38,14 @@ const props = defineProps<{
     align-items: center;
 
     padding: 10px 16px;
-    margin: 16px 8px;
+    margin: 0px 8px;
     background: transparent;
     color: var(--font);
     font-size: 24px;
+}
+
+.file-name {
+    overflow-wrap: anywhere;
 }
 
 .remove {
@@ -62,4 +67,10 @@ img {
     height: 30px;
     width: 30px;
 }
+
+/*
+.remove:hover img {
+    filter: invert(1);
+}
+*/
 </style>

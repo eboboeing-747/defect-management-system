@@ -1,8 +1,17 @@
 <script setup lang="ts">
 import { type Ref, ref } from 'vue';
 import FileUpload from './FileUpload.vue';
+import { useTemplateRef } from 'vue';
 
 const isVisibleCreate: Ref<boolean> = ref(false);
+const createModal: Ref<HTMLElement | null> = useTemplateRef<HTMLElement>('createModal');
+
+function onBgClick(event: MouseEvent): void {
+    if (!createModal.value?.contains(event.target as Node)) {
+        console.log('[onBgClick] closing modal');
+        isVisibleCreate.value = false;
+    }
+}
 
 window.addEventListener('keydown', (event: KeyboardEvent): void => {
     if (event.key == 'Escape')
@@ -21,10 +30,15 @@ window.addEventListener('keydown', (event: KeyboardEvent): void => {
     <div
         v-show="isVisibleCreate"
         class="create-modal-bg"
+        @click="onBgClick"
     >
         <div class="spacer"></div>
 
-        <form id="auth-wrapper" class="auth-wrapper background resizable">
+        <form
+            ref="createModal"
+            class="auth-wrapper background resizable"
+            @submit.prevent=""
+        >
             <h1 class="title">create a new estate object</h1>
 
             <input class="action-field" name="name" type="text" placeholder="name" required>
@@ -35,8 +49,6 @@ window.addEventListener('keydown', (event: KeyboardEvent): void => {
             <FileUpload />
 
             <button class="action-field">create</button>
-
-            <p id="error-display" class="error-display"></p>
         </form>
     </div>
 </template>
