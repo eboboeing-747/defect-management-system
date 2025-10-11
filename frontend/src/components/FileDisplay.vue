@@ -67,10 +67,4 @@ img {
     height: 30px;
     width: 30px;
 }
-
-/*
-.remove:hover img {
-    filter: invert(1);
-}
-*/
 </style>

@@ -16,14 +16,10 @@ public class JwtOptions
     public JwtOptions(ConfigurationManager configuration)
     {
         string jwtConfig = "JwtConfig";
-        string secretKey = "SecretKey";
         string validiryDuration = "ValidityDurationMinutes";
 
-        this.SecretKey = configuration[$"{jwtConfig}:{secretKey}"] ??
-            throw new Exception($"no \"{jwtConfig}.{secretKey}\" in \"appsetting.Development.json\"");
-        this.SecretKey = JwtOptions.ReadConfigurationField(configuration, "SecretKey");
-        string JwtValidityDurationMinutesString = configuration[$"{jwtConfig}:{validiryDuration}"] ??
-            throw new Exception($"no \"{jwtConfig}.{validiryDuration}\" in \"appsetting.Development.json\"");
+        this.SecretKey = ReadConfigurationField(configuration, "SecretKey");
+        string JwtValidityDurationMinutesString = ReadConfigurationField(configuration, validiryDuration);
 
         if (!int.TryParse(JwtValidityDurationMinutesString, out int JwtValidityDurationMinutes))
             throw new Exception($"failed to parse \"{jwtConfig}.{validiryDuration}\" into int");
@@ -34,7 +30,7 @@ public class JwtOptions
     public static string ReadConfigurationField(ConfigurationManager configuration, string field)
     {
         string val = configuration[$"JwtConfig:{field}"] ??
-            throw new Exception($"no \"jwtConfig.{field}\" in \"appsetting.Development.json\"");
+            throw new Exception($"no JwtConfig.{field} in \"appsetting.Development.json\"");
 
         return val;
     }

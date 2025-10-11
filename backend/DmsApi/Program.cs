@@ -15,7 +15,6 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         var configuration = builder.Configuration;
 
-        // Add services to the container.
         string corsPolicy = "localCorsPolicy";
 
         builder.Services.AddCors(options =>
@@ -51,10 +50,14 @@ public class Program
         });
 
         builder.Services.AddScoped<UserRepository>();
+        builder.Services.AddScoped<EstateObjectRepository>();
 
         builder.Services.AddScoped<UserService>();
+        builder.Services.AddScoped<EstateObjectService>();
+        builder.Services.AddScoped<FileService>();
 
         builder.Services.AddScoped(provider => { return new JwtOptions(configuration); });
+        builder.Services.AddScoped<DmsDb.FileOptions>();
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -66,11 +69,7 @@ public class Program
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(JwtOptions.ReadConfigurationField(configuration, "SecretKey"))
-                    ),
-                    RoleClaimType = "Role"
-                };
-
+                        Encoding.UTF8.GetBytes(JwtOptions.ReadConfigurationField(configuration, "SecretKey"))), RoleClaimType = "Role" };
                 options.Events = new JwtBearerEvents
                 {
                     OnMessageReceived = context =>
@@ -103,6 +102,17 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
+
+        using (var scope = app.Services.CreateScope())
+        {
+            FileService fileService = scope.ServiceProvider.GetRequiredService<FileService>();
+
+            if (!fileService.CheckRootStorage())
+            {
+                Console.WriteLine("root store does not exit");
+                return;
+            }
+        }
 
         app.Run();
     }

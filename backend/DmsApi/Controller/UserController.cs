@@ -49,7 +49,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("Logout")]
-    public async Task<IActionResult> Logout()
+    public IActionResult Logout()
     {
         string token = "logged-out";
         AddJwtToken(token, HttpContext);
