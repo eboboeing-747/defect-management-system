@@ -9,38 +9,32 @@ namespace DmsDb.Service;
 
 public class EstateObjectService
 {
-    private readonly FileOptions _fileOptions;
     private readonly FileService _fileService;
     private readonly EstateObjectRepository _estateObjectRepository;
 
     public EstateObjectService(
-        FileOptions fileOptions,
         FileService fileService,
         EstateObjectRepository estateObjectRepository
     ) {
-        this._fileOptions = fileOptions;
         this._fileService = fileService;
         this._estateObjectRepository = estateObjectRepository;
     }
 
     public async Task<HttpStatusCode> Create(EstateObjectObject estateObjectObject)
     {
+        HttpStatusCode status = await _fileService.Validate(estateObjectObject.Files);
+
+        if (status != HttpStatusCode.OK)
+            return status;
+
+        Guid EstateObjectId = Guid.NewGuid();
+
         foreach (IFormFile file in estateObjectObject.Files)
-        {
-            if (file.Length > _fileOptions.MaxFileSizeBytes)
-                return HttpStatusCode.RequestEntityTooLarge;
-
-            if (!_fileOptions.IsAllowed(file))
-                return HttpStatusCode.UnsupportedMediaType;
-
-            _fileService.CreateFile(file);
-        }
-
-        return HttpStatusCode.OK;
+            await _fileService.CreateFile(file, EstateObjectId);
 
         EstateObjectEntity estateObject = new EstateObjectEntity
         {
-            Id = Guid.NewGuid(),
+            Id = EstateObjectId,
             Address = estateObjectObject.Address,
             Name = estateObjectObject.Name,
             Description = estateObjectObject.Description

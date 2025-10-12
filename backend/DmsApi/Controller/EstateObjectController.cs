@@ -24,6 +24,14 @@ public class EstateObjectController : ControllerBase
     ) {
         HttpStatusCode status = await _estateObjectService.Create(estateObject);
 
-        return Ok();
+        switch (status)
+        {
+        case HttpStatusCode.RequestEntityTooLarge:
+            return StatusCode(StatusCodes.Status413RequestEntityTooLarge);
+        case HttpStatusCode.UnsupportedMediaType:
+            return StatusCode(StatusCodes.Status415UnsupportedMediaType);
+        }
+
+        return Created();
     }
 }

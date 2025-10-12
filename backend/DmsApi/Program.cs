@@ -51,13 +51,14 @@ public class Program
 
         builder.Services.AddScoped<UserRepository>();
         builder.Services.AddScoped<EstateObjectRepository>();
+        builder.Services.AddScoped<ImageRepository>();
 
         builder.Services.AddScoped<UserService>();
         builder.Services.AddScoped<EstateObjectService>();
         builder.Services.AddScoped<FileService>();
 
         builder.Services.AddScoped(provider => { return new JwtOptions(configuration); });
-        builder.Services.AddScoped<DmsDb.FileOptions>();
+        builder.Services.AddScoped(provider => { return new DmsDb.FileOptions(configuration); });
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

@@ -59,7 +59,7 @@ public class UserController : ControllerBase
 
     [HttpGet("Restricted")]
     [Authorize(Roles = "engineer")]
-    public async Task<IActionResult> DoRestricedAction()
+    public IActionResult DoRestricedAction()
     {
         return Ok();
     }
