@@ -14,4 +14,5 @@ public class DmsDbContext : DbContext
     public DbSet<UserEntity> Users { get; set; }
 
     public DbSet<DefectCommentEntity> DefectCommentEntities { get; set; }
+    public DbSet<UserEstateObjectEntity> UserEstateObjectEntities { get; set; }
 }

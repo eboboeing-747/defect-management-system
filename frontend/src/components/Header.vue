@@ -130,6 +130,8 @@ header {
 .pfp {
     width: 50px;
     height: 50px;
+    border: 1px solid var(--border-color);
+    border-radius: 100%;
 }
 
 .account-modal {

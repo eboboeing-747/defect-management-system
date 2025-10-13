@@ -11,26 +11,31 @@ public class EstateObjectService
 {
     private readonly FileService _fileService;
     private readonly EstateObjectRepository _estateObjectRepository;
+    private readonly UserEstateObjectRepository _userEstateObjectRepository;
 
     public EstateObjectService(
         FileService fileService,
-        EstateObjectRepository estateObjectRepository
+        EstateObjectRepository estateObjectRepository,
+        UserEstateObjectRepository userEstateObjectRepository
     ) {
         this._fileService = fileService;
         this._estateObjectRepository = estateObjectRepository;
+        this._userEstateObjectRepository = userEstateObjectRepository;
     }
 
-    public async Task<HttpStatusCode> Create(EstateObjectObject estateObjectObject)
+    public async Task<HttpStatusCode> Create(Guid userId, EstateObjectObject estateObjectObject)
     {
-        Guid EstateObjectId = Guid.NewGuid();
-        HttpStatusCode status = await _fileService.CreateFiles(estateObjectObject.Files, EstateObjectId);
+        Guid estateObjectId = Guid.NewGuid();
+        HttpStatusCode status = await _fileService.CreateFiles(estateObjectObject.Files, estateObjectId);
 
         if (status != HttpStatusCode.OK)
             return status;
 
+        await _userEstateObjectRepository.Add(userId, estateObjectId);
+
         EstateObjectEntity estateObject = new EstateObjectEntity
         {
-            Id = EstateObjectId,
+            Id = estateObjectId,
             Address = estateObjectObject.Address,
             Name = estateObjectObject.Name,
             Description = estateObjectObject.Description
@@ -40,9 +45,10 @@ public class EstateObjectService
         return HttpStatusCode.Created;
     }
 
-    public async Task<List<EstateObjectCard>> GetAll()
+    public async Task<List<EstateObjectCard>> GetAll(Guid userId)
     {
-        List<EstateObjectCard> cards = await _estateObjectRepository.GetAll();
+        List<Guid> estateObjectIds = await _userEstateObjectRepository.GetEstateObjectIdsByUserId(userId);
+        List<EstateObjectCard> cards = await _estateObjectRepository.GetAll(estateObjectIds);
 
         foreach (EstateObjectCard card in cards)
             card.ImagePath = await _fileService.GetThumbnail(card.Id) ?? string.Empty;

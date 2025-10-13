@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using DmsDb.Object;
 using DmsDb.Service;
 using System.Net;
+using System.Security.Claims;
 
 namespace DmsApi.Controller;
 
@@ -19,10 +20,17 @@ public class EstateObjectController : ControllerBase
     }
 
     [HttpPost("Create")]
+    [Authorize(Policy = "RequireIdClaim")]
     public async Task<IActionResult> Create(
         [FromForm] EstateObjectObject estateObject
     ) {
-        HttpStatusCode status = await _estateObjectService.Create(estateObject);
+        Claim userIdClaim = User.FindFirst("Id")!;
+        Guid userId = Guid.Parse(userIdClaim.Value);
+
+        // if (!Guid.TryParse(userIdClaim.Value, out Guid userId))
+        //     return BadRequest("failed to parse \"Id\" claim as Guid");
+
+        HttpStatusCode status = await _estateObjectService.Create(userId, estateObject);
 
         switch (status)
         {
@@ -36,8 +44,27 @@ public class EstateObjectController : ControllerBase
     }
 
     [HttpGet("GetAll")]
+    [Authorize(Policy = "RequireIdClaim")]
     public async Task<IActionResult> GetAll()
     {
-        return Ok(await _estateObjectService.GetAll());
+        Claim userIdClaim = User.FindFirst("Id")!;
+        Guid userId = Guid.Parse(userIdClaim.Value);
+
+        return Ok(await _estateObjectService.GetAll(userId));
     }
+
+    // private Guid? ExtractUserId()
+    // {
+    //     Claim? userIdClaim = User.FindFirst("Id");
+    //
+    //     if (userIdClaim == null)
+    //         return null;
+    //         // return Unauthorized("no \"Id\" claim in authorization token");
+    //
+    //     if (!Guid.TryParse(userIdClaim.Value, out Guid userId))
+    //         return null;
+    //         // return BadRequest("failed to parse \"Id\" claim as Guid");
+    //
+    //     return userId;
+    // }
 }

@@ -80,7 +80,10 @@ const cards: Ref<IEstateObjectCard[]> = ref([
 </script>
 
 <template>
-    <div class="estate-object-list">
+    <div
+        class="estate-object-list"
+        v-if="userdata.isLogged"
+    >
         <div class="list-align">
             <CreateCard />
             <EstateObjectCard

@@ -110,6 +110,7 @@ public class UserService
             Id = userEntity.Id,
             Login = userEntity.Login,
             FirstName = userEntity.FirstName,
+            MiddleName = userEntity.MiddleName,
             LastName = userEntity.LastName,
             Sex = userEntity.Sex,
             Role = userEntity.Role,

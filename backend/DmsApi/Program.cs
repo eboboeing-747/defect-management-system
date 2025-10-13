@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DmsApi;
 
@@ -52,6 +53,7 @@ public class Program
         builder.Services.AddScoped<UserRepository>();
         builder.Services.AddScoped<EstateObjectRepository>();
         builder.Services.AddScoped<ImageRepository>();
+        builder.Services.AddScoped<UserEstateObjectRepository>();
 
         builder.Services.AddScoped<UserService>();
         builder.Services.AddScoped<EstateObjectService>();
@@ -83,7 +85,11 @@ public class Program
 
             });
 
-        builder.Services.AddAuthorization();
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("RequireIdClaim", policy =>
+                policy.RequireClaim("Id"));
+        });
 
         var app = builder.Build();
 

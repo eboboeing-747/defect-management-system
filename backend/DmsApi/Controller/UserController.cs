@@ -24,7 +24,7 @@ public class UserController : ControllerBase
     public async Task<IResult> Login(
         [FromBody] UserCredentials user
     ) {
-        Console.WriteLine(user);
+        Console.WriteLine($"[Login] {user}");
 
         (string? token, UserReturn? userToReturn) = await this._userService.Login(user.Login, user.Password);
 
@@ -39,6 +39,8 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Register(
         [FromBody] UserRegister user
     ) {
+        Console.WriteLine($"[Register] {user}");
+
         string? token = await _userService.Register(user);
 
         if (token == null)
@@ -59,6 +61,7 @@ public class UserController : ControllerBase
 
     [HttpGet("Restricted")]
     [Authorize(Roles = "engineer")]
+    [Authorize(Policy = "RequireIdClaim")]
     public IActionResult DoRestricedAction()
     {
         return Ok();

@@ -50,6 +50,7 @@ async function register() {
 
     const user = {
         login: login,
+        password: password,
         firstName: firstName,
         middleName: middleName,
         lastName: lastName,
