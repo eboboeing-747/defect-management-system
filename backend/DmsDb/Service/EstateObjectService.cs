@@ -22,16 +22,7 @@ public class EstateObjectService
 
     public async Task<HttpStatusCode> Create(EstateObjectObject estateObjectObject)
     {
-        // HttpStatusCode status = await _fileService.Validate(estateObjectObject.Files);
-        //
-        // if (status != HttpStatusCode.OK)
-        //     return status;
-
         Guid EstateObjectId = Guid.NewGuid();
-
-        // foreach (IFormFile file in estateObjectObject.Files)
-        //     await _fileService.CreateFile(file, EstateObjectId);
-
         HttpStatusCode status = await _fileService.CreateFiles(estateObjectObject.Files, EstateObjectId);
 
         if (status != HttpStatusCode.OK)
@@ -47,5 +38,15 @@ public class EstateObjectService
 
         await _estateObjectRepository.Create(estateObject);
         return HttpStatusCode.Created;
+    }
+
+    public async Task<List<EstateObjectCard>> GetAll()
+    {
+        List<EstateObjectCard> cards = await _estateObjectRepository.GetAll();
+
+        foreach (EstateObjectCard card in cards)
+            card.ImagePath = await _fileService.GetThumbnail(card.Id) ?? string.Empty;
+
+        return cards;
     }
 }

@@ -1,5 +1,5 @@
 export interface IEstateObjectCard {
-    image: string;
+    imagePath: string;
     name: string;
     address: string;
 }

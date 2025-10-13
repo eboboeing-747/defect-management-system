@@ -89,4 +89,9 @@ public class FileService
         using (FileStream fs = File.Create(fullPath))
             await fileToCreate.CopyToAsync(fs);
     }
+
+    public async Task<string?> GetThumbnail(Guid entityId)
+    {
+        return await _imageRepository.GetThumbnail(entityId);
+    }
 }

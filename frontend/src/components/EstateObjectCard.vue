@@ -10,7 +10,8 @@ const props = defineProps<{
     <div class="body">
         <img
             class="card-image"
-            v-bind:src="props.object.image"
+            v-bind:src="props.object.imagePath"
+            :alt="props.object.imagePath"
         />
         <div class="card-field">
             {{ props.object.name }}
