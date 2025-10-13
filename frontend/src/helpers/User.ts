@@ -1,6 +1,7 @@
 import { type Ref } from 'vue';
 
 export const EMPTY_PFP = '/empty-pfp.png';
+export type Role = 'engineer' | 'manager' | 'supervisor' | 'log in to see role';
 
 export interface UserRef {
     login: Ref<string>,
@@ -9,7 +10,7 @@ export interface UserRef {
     lastName: Ref<string>,
     pfpPath: Ref<string>,
     sex: Ref<boolean>
-    role: Ref<string>,
+    role: Ref<Role>,
     isLogged: Ref<boolean>
 }
 
@@ -20,6 +21,6 @@ export interface User {
     lastName: string,
     pfpPath: string,
     sex: boolean
-    role: string,
+    role: Role,
     isLogged: boolean
 }

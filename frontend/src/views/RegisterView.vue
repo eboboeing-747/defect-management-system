@@ -21,19 +21,20 @@ onMounted(() => {
 async function register() {
     errorHandler.hideErrors();
 
-    let usernameInput = document.getElementById('username');
-    let username = usernameInput.value;
-    let passwordInput = document.getElementById('password');
-    let password = passwordInput.value;
-    let verifyPasswordInput = document.getElementById('verify-password');
-    let verifyPassword = verifyPasswordInput.value;
-    let firstName = document.getElementById('first-name').value;
-    let middleName = document.getElementById('middle-name').value;
-    let lastName = document.getElementById('last-name').value;
-    let sex = document.getElementById('male').checked;
+    const loginInput = document.getElementById('login');
+    const login = loginInput.value;
+    const passwordInput = document.getElementById('password');
+    const password = passwordInput.value;
+    const verifyPasswordInput = document.getElementById('verify-password');
+    const verifyPassword = verifyPasswordInput.value;
+    const firstName = document.getElementById('first-name').value;
+    const middleName = document.getElementById('middle-name').value;
+    const lastName = document.getElementById('last-name').value;
+    const sex = document.getElementById('male').checked;
+    const role = document.getElementById('role').value;
 
-    if (username.length < 4) {
-        errorHandler.displayError('username can not subceed 4 characters', [usernameInput]);
+    if (login.length < 4) {
+        errorHandler.displayError('login can not subceed 4 characters', [loginInput]);
         return;
     }
 
@@ -48,13 +49,13 @@ async function register() {
     }
 
     const user = {
-        login: username,
+        login: login,
         firstName: firstName,
         middleName: middleName,
         lastName: lastName,
         pfpPath: EMPTY_PFP,
         sex: sex,
-        role: "engineer"
+        role: role
     };
 
     let params = {
@@ -75,6 +76,7 @@ async function register() {
             case 201:
                 router.push('/');
                 userstore.init(user);
+                userstore.isLogged = true;
                 break;
             case 409:
                 errorHandler.displayError('user with such login already exists', [authWrapper]);
@@ -96,7 +98,7 @@ async function register() {
         <form v-on:submit.prevent="register" id="auth-wrapper" class="auth-wrapper">
             <h1 class="title">register</h1>
 
-            <input id="username" class="action-field" name="username" type="text" placeholder="username" required>
+            <input id="login" class="action-field" name="login" type="text" placeholder="login" required>
             <input id="first-name" class="action-field" name="first-name" type="text" placeholder="first name" required>
             <input id="middle-name" class="action-field" name="middle-name" type="text" placeholder="middle name" required>
             <input id="last-name" class="action-field" name="last-name" type="text" placeholder="last name" required>
@@ -108,6 +110,15 @@ async function register() {
                 <label for="male">male</label>
                 <input id="female" type="radio" name="sex">
                 <label for="female">female</label>
+            </div>
+
+            <div class="dropdown-container">
+                <label for="role">role</label>
+                <select name="role" id="role">
+                    <option value="engineer">engineer</option>
+                    <option value="manager">manager</option>
+                    <option value="supervisor">supervisor</option>
+                </select>
             </div>
 
             <button type="submit" class="action-field">register</button>

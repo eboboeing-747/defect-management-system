@@ -34,4 +34,10 @@ public class EstateObjectController : ControllerBase
 
         return Created();
     }
+
+    // [HttpPost("GetAll")]
+    // public async Task<IActionResult> GetAll()
+    // {
+    //
+    // }
 }

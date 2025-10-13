@@ -1,16 +1,27 @@
 import { ref, type Ref, computed } from 'vue'
 import { defineStore } from 'pinia';
-import { type UserRef, type User, EMPTY_PFP } from '@/helpers/User.ts'
+import { type Role, type User, EMPTY_PFP } from '@/helpers/User.ts'
+
+const defaults: User = {
+    login: '',
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    pfpPath: EMPTY_PFP,
+    sex: false,
+    role: 'log in to see role',
+    isLogged: false
+}
 
 export const useUserDataStore = defineStore('userdata', () => {
-    const login: Ref<string> = ref('');
-    const firstName: Ref<string> = ref('');
-    const middleName: Ref<string> = ref('');
-    const lastName: Ref<string> = ref('');
-    const pfpPath: Ref<string> = ref(EMPTY_PFP);
-    const sex: Ref<boolean> = ref(false);
-    const role: Ref<string> = ref('');
-    const isLogged: Ref<boolean> = ref(false);
+    const login: Ref<string> = ref(defaults.login);
+    const firstName: Ref<string> = ref(defaults.firstName);
+    const middleName: Ref<string> = ref(defaults.middleName);
+    const lastName: Ref<string> = ref(defaults.lastName);
+    const pfpPath: Ref<string> = ref(defaults.pfpPath);
+    const sex: Ref<boolean> = ref(defaults.sex);
+    const role: Ref<Role> = ref(defaults.role);
+    const isLogged: Ref<boolean> = ref(defaults.isLogged);
 
     function init(user: User): void {
         login.value = user.login;
@@ -28,13 +39,13 @@ export const useUserDataStore = defineStore('userdata', () => {
     }
 
     function destruct(): void {
-        login.value = '';
-        firstName.value = '';
-        middleName.value = '';
-        lastName.value = '';
-        pfpPath.value = EMPTY_PFP;
-        sex.value = false;
-        role.value = '';
+        login.value = defaults.login;
+        firstName.value = defaults.firstName;
+        middleName.value = defaults.middleName;
+        lastName.value = defaults.lastName;
+        pfpPath.value = defaults.pfpPath;
+        sex.value = defaults.sex;
+        role.value = defaults.role;
     }
 
     return { login, firstName, middleName, lastName, pfpPath, sex, role, isLogged, init, destruct }

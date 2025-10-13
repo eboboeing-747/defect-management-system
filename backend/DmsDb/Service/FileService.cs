@@ -3,6 +3,7 @@ namespace DmsDb.Service;
 using System.Net;
 using DmsDb.Repository;
 using Microsoft.AspNetCore.Http;
+using System.Globalization;
 
 public class FileService
 {
@@ -64,9 +65,23 @@ public class FileService
         return HttpStatusCode.OK;
     }
 
+    public async Task<HttpStatusCode> CreateFiles(List<IFormFile> files, Guid entityId)
+    {
+        HttpStatusCode status = await Validate(files);
+
+        if (status != HttpStatusCode.OK)
+            return status;
+
+        foreach (IFormFile file in files)
+            await CreateFile(file, entityId);
+
+        return HttpStatusCode.OK;
+    }
+
     public async Task CreateFile(IFormFile fileToCreate, Guid entityId)
     {
-        string newFileName = $"{Path.GetRandomFileName()}{Path.GetExtension(fileToCreate.FileName)}";
+        string dateTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture);
+        string newFileName = $"[{dateTime}]{Path.GetRandomFileName()}{Path.GetExtension(fileToCreate.FileName)}";
         string fullPath = Path.Combine(_fileOptions.RootStore, newFileName);
 
         await _imageRepository.Create(newFileName, entityId);

@@ -22,15 +22,20 @@ public class EstateObjectService
 
     public async Task<HttpStatusCode> Create(EstateObjectObject estateObjectObject)
     {
-        HttpStatusCode status = await _fileService.Validate(estateObjectObject.Files);
-
-        if (status != HttpStatusCode.OK)
-            return status;
+        // HttpStatusCode status = await _fileService.Validate(estateObjectObject.Files);
+        //
+        // if (status != HttpStatusCode.OK)
+        //     return status;
 
         Guid EstateObjectId = Guid.NewGuid();
 
-        foreach (IFormFile file in estateObjectObject.Files)
-            await _fileService.CreateFile(file, EstateObjectId);
+        // foreach (IFormFile file in estateObjectObject.Files)
+        //     await _fileService.CreateFile(file, EstateObjectId);
+
+        HttpStatusCode status = await _fileService.CreateFiles(estateObjectObject.Files, EstateObjectId);
+
+        if (status != HttpStatusCode.OK)
+            return status;
 
         EstateObjectEntity estateObject = new EstateObjectEntity
         {

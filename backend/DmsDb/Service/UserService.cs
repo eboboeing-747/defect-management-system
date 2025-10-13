@@ -13,6 +13,7 @@ public class UserService
 {
     private readonly UserRepository _userRepository;
     private readonly JwtOptions _jwtOptions;
+    private readonly List<string> _roles = new List<string>{ "engineer", "manager", "supervisor" };
 
     public UserService(
             UserRepository userRepository,
@@ -42,24 +43,33 @@ public class UserService
 
     public async Task<string?> Register(UserRegister user)
     {
+        if (!ExistsRole(user.Role))
+            return null;
+
         UserEntity userToCreate = new UserEntity
         {
             Id = Guid.NewGuid(),
             Login = user.Login,
-            Password = UserService.Hash(user.Password),
+            Password = Hash(user.Password),
             FirstName = user.FirstName,
+            MiddleName = user.MiddleName,
             LastName = user.LastName,
             Sex = user.Sex,
-            Role = "engineer" // add a check for role existence
+            Role = user.Role
         };
 
-        bool isCreated = await this._userRepository.Create(userToCreate);
+        bool isCreated = await _userRepository.Create(userToCreate);
 
         if (!isCreated)
             return null;
 
-        string jwtToken = this.GenerateJwtToken(userToCreate);
+        string jwtToken = GenerateJwtToken(userToCreate);
         return jwtToken;
+    }
+
+    private bool ExistsRole(string role)
+    {
+        return _roles.Contains(role);
     }
 
     private string GenerateJwtToken(UserEntity user)

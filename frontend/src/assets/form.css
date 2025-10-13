@@ -48,6 +48,25 @@ input, textarea {
     font-size: 24px;
 }
 
+select {
+    font-size: var(--font-size);
+    color: var(--font);
+    padding: 10px 16px;
+    margin: 16px 8px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    appearance: none;
+    background-color: transparent;
+    text-align: center;
+}
+
+.dropdown-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
 button {
     border-radius: var(--border-radius);
     border: 2px solid var(--border-color);

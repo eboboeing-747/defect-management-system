@@ -11,6 +11,7 @@ public record UserRegister : UserCredentials
     public string FirstName { get; init; } = string.Empty;
     public string MiddleName { get; init; } = string.Empty;
     public string LastName { get; init; } = string.Empty;
+    public string Role { get; init; } = string.Empty;
     public bool Sex { get; init; }
 }
 

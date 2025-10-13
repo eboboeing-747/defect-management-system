@@ -32,7 +32,7 @@ onMounted((): void => {
 
 <template>
     <header>
-        <div>
+        <div class="role">
             {{ userdata.role }}
         </div>
 
@@ -105,8 +105,12 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 10px;
+    padding: 10px 16px;
     align-items: center;
+}
+
+.role {
+    padding: 0px 10px;
 }
 
 .account-info {
