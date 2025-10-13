@@ -33,6 +33,10 @@ function onDrop(event: DropEvent): void {
         filelist.value.push(file);
     }
 }
+
+defineExpose({
+    getFiles
+})
 </script>
 
 <template>

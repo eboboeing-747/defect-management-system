@@ -1,12 +1,22 @@
+@import '@/assets/base.css';
+
 .body {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+
     margin: 16px;
-    height: 200px;
     width: 300px;
+    border-radius: var(--border-radius);
 
-
-    border: 1px solid turquoise;
+    border: 1px solid var(--border-color);
 }
 
 .card-image {
     object-fit: contain;
+}
+
+.card-field {
+    margin-top: 10px;
+    font-size: 20px;
 }

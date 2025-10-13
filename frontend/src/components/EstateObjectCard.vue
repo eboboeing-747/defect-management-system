@@ -12,10 +12,10 @@ const props = defineProps<{
             class="card-image"
             v-bind:src="props.object.image"
         />
-        <div>
+        <div class="card-field">
             {{ props.object.name }}
         </div>
-        <div>
+        <div class="card-field">
             {{ props.object.address }}
         </div>
     </div>

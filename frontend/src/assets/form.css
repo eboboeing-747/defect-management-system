@@ -75,6 +75,14 @@ button:active {
     border-color: red;
 }
 
+.error-message {
+    color: var(--error);
+}
+
+.success-message {
+    color: var(--success);
+}
+
 .error-display {
     color: red;
     height: 30px;

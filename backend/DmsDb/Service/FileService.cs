@@ -69,8 +69,6 @@ public class FileService
         string newFileName = $"{Path.GetRandomFileName()}{Path.GetExtension(fileToCreate.FileName)}";
         string fullPath = Path.Combine(_fileOptions.RootStore, newFileName);
 
-        Console.WriteLine($"saving file to {fullPath}");
-
         await _imageRepository.Create(newFileName, entityId);
 
         using (FileStream fs = File.Create(fullPath))

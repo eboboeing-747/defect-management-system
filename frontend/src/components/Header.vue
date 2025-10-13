@@ -37,8 +37,12 @@ onMounted((): void => {
         </div>
 
         <div class="account-info">
-            <div v-if="userdata.isLogged">{{userdata.firstName}} {{userdata.middleName}}</div>
-            <a v-else>not logged in</a>
+            <div v-if="userdata.isLogged">
+                {{userdata.firstName}} {{userdata.middleName}}
+            </div>
+            <a v-else class="username">
+                not logged in
+            </a>
 
             <div class="spacer">
             </div>
@@ -109,6 +113,10 @@ header {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.username {
+    color: var(--font);
 }
 
 .spacer {

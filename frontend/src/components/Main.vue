@@ -41,18 +41,26 @@ const cards: Ref<IEstateObjectCard[]> = ref([
 
 <template>
     <div class="estate-object-list">
-        <CreateCard />
-        <EstateObjectCard
-            v-for="card in cards"
-            v-bind:object="card"
-        />
+        <div class="list-align">
+            <CreateCard />
+            <EstateObjectCard
+                v-for="card in cards"
+                v-bind:object="card"
+            />
+        </div>
     </div>
 </template>
 
 <style scoped>
 .estate-object-list {
+    display: flex;
+    justify-content: center;
+}
+
+.list-align {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     justify-items: center;
+    justify-content: space-between;
 }
 </style>
