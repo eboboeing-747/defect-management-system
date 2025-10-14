@@ -94,4 +94,9 @@ public class FileService
     {
         return await _imageRepository.GetThumbnail(entityId);
     }
+
+    public string GetFilePath(string filename)
+    {
+        return Path.Combine(_fileOptions.RootStore, filename);
+    }
 }

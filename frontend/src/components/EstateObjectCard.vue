@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { type IEstateObjectCard } from '@/helpers/EstateObject';
+import { Host } from '@/helpers/Host';
 
 const props = defineProps<{
     object: IEstateObjectCard
@@ -10,7 +11,7 @@ const props = defineProps<{
     <div class="body">
         <img
             class="card-image"
-            v-bind:src="props.object.imagePath"
+            :src="`${Host.getHost()}/Image/GetImage/${props.object.imagePath}`"
             :alt="props.object.imagePath"
         />
         <div class="card-field">
