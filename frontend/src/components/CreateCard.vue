@@ -10,7 +10,10 @@ const createModal: Ref<HTMLElement | null> = useTemplateRef<HTMLElement>('create
 const result: Ref<{
     status: boolean,
     message: string
-}> = ref({ status: false, message: '' });
+}> = ref({
+    status: false,
+    message: ''
+});
 
 const nameRef: Ref<HTMLInputElement | null> = useTemplateRef<HTMLInputElement>('name');
 const addressRef: Ref<HTMLInputElement | null> = useTemplateRef<HTMLInputElement>('address');
@@ -23,7 +26,7 @@ function onBgClick(event: MouseEvent): void {
 }
 
 async function submit(): Promise<void> {
-    const filelist: File[] = fileUploadRef.value.getFiles();
+    const filelist: File[] = fileUploadRef.value!.getFiles();
 
     const name: string = nameRef.value?.value!;
     const address: string = addressRef.value?.value!;
@@ -45,27 +48,29 @@ async function submit(): Promise<void> {
         body: formData
     };
 
-console.log(formData);
+    try {
+        const res = await fetch(`${Host.getHost()}/EstateObject/Create`, opts);
 
-    const res = await fetch(`${Host.getHost()}/EstateObject/Create`, opts);
-
-    switch (res.status)
-    {
-    case 201:
-        result.value.message = 'success';
-        result.value.status = true;
-        return;
-    case 413:
-        result.value.message = 'one of your files is too big';
-        result.value.status = false;
-        return;
-    case 415:
-        result.value.message = 'one of your filetypes is not supported';
-        result.value.status = false;
-        return;
-    default:
-        result.value.message = 'unexpected error occured';
-        result.value.status = false;
+        switch (res.status)
+        {
+        case 201:
+            result.value.message = 'success';
+            result.value.status = true;
+            return;
+        case 413:
+            result.value.message = 'one of your files is too big';
+            result.value.status = false;
+            return;
+        case 415:
+            result.value.message = 'one of your filetypes is not supported';
+            result.value.status = false;
+            return;
+        default:
+            result.value.message = 'unexpected error occured';
+            result.value.status = false;
+        }
+    } catch(error: unknown) {
+        console.log(error);
     }
 }
 
@@ -105,6 +110,7 @@ window.addEventListener('keydown', (event: KeyboardEvent): void => {
                 placeholder="name"
                 required
             >
+
             <input
                 ref="address"
                 class="action-field"
@@ -120,7 +126,7 @@ window.addEventListener('keydown', (event: KeyboardEvent): void => {
                 placeholder="description"
             />
 
-            <FileUpload ref="fileUpload"/>
+            <FileUpload ref="fileUpload" />
 
             <button
                 @submit.prevent="submit"

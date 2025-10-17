@@ -76,8 +76,7 @@ async function register() {
         switch (res.status) {
             case 201:
                 router.push('/');
-                userstore.init(user);
-                userstore.isLogged = true;
+                userstore.LogIn(user);
                 break;
             case 409:
                 errorHandler.displayError('user with such login already exists', [authWrapper]);

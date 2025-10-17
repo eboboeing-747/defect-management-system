@@ -56,8 +56,7 @@ async function login() {
         switch (res.status) {
             case 200:
                 const body = await res.json();
-                userstore.init(body);
-                userstore.isLogged = true;
+                userstore.LogIn(body);
                 router.push('/');
                 console.log('[login] logged', body);
                 return;

@@ -23,20 +23,27 @@ public class UserService
         this._jwtOptions = jwtOptions;
     }
 
+    public async Task<UserReturn?> Authorize(Guid userId)
+    {
+        UserEntity? user = await _userRepository.GetById(userId);
+
+        return user != null ? Convert(user) : null;
+    }
+
     public async Task<(string?, UserReturn?)> Login(string login, string password)
     {
-        UserEntity? user = await this._userRepository.GetByLogin(login);
+        UserEntity? user = await _userRepository.GetByLogin(login);
 
         if (user == null)
             return (null, null);
 
-        bool isValid = UserService.Verify(password, user.Password);
+        bool isValid = Verify(password, user.Password);
 
         if (!isValid)
             return (null, null);
 
-        string jwtToken = this.GenerateJwtToken(user);
-        UserReturn userToReturn = this.Convert(user);
+        string jwtToken = GenerateJwtToken(user);
+        UserReturn userToReturn = Convert(user);
 
         return (jwtToken, userToReturn);
     }
@@ -103,7 +110,7 @@ public class UserService
         return BCrypt.Net.BCrypt.EnhancedVerify(password, passwordHashed);
     }
 
-    public UserReturn Convert(UserEntity userEntity)
+    public static UserReturn Convert(UserEntity userEntity)
     {
         UserReturn user = new UserReturn
         {

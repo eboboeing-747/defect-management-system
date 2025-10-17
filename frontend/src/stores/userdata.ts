@@ -1,4 +1,4 @@
-import { ref, type Ref, computed } from 'vue'
+import { ref, type Ref } from 'vue'
 import { defineStore } from 'pinia';
 import { type Role, type User, EMPTY_PFP } from '@/helpers/User.ts'
 
@@ -23,7 +23,7 @@ export const useUserDataStore = defineStore('userdata', () => {
     const role: Ref<Role> = ref(defaults.role);
     const isLogged: Ref<boolean> = ref(defaults.isLogged);
 
-    function init(user: User): void {
+    function LogIn(user: User): void {
         login.value = user.login;
         firstName.value = user.firstName;
         middleName.value = user.middleName;
@@ -36,9 +36,11 @@ export const useUserDataStore = defineStore('userdata', () => {
 
         sex.value = user.sex;
         role.value = user.role;
+
+        isLogged.value = true;
     }
 
-    function destruct(): void {
+    function LogOut(): void {
         login.value = defaults.login;
         firstName.value = defaults.firstName;
         middleName.value = defaults.middleName;
@@ -46,7 +48,9 @@ export const useUserDataStore = defineStore('userdata', () => {
         pfpPath.value = defaults.pfpPath;
         sex.value = defaults.sex;
         role.value = defaults.role;
+
+        isLogged.value = false;
     }
 
-    return { login, firstName, middleName, lastName, pfpPath, sex, role, isLogged, init, destruct }
+    return { login, firstName, middleName, lastName, pfpPath, sex, role, isLogged, LogIn, LogOut }
 })

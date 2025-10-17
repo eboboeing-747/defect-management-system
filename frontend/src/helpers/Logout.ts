@@ -10,12 +10,10 @@ export async function Logout(): Promise<void> {
 
     const res: Response = await fetch(`${Host.getHost()}/User/Logout`, params);
 
-    const userdata = useUserDataStore();
-
     switch (res.status) {
         case 200:
-            userdata.destruct();
-            userdata.isLogged = false;
+            const userdata = useUserDataStore();
+            userdata.LogOut();
             return;
         default:
             alert('failed to log out');

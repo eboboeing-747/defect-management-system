@@ -59,6 +59,17 @@ public class UserController : ControllerBase
         return Ok();
     }
 
+    [HttpGet("Authorize")]
+    [Authorize]
+    public async Task<IActionResult> Authorize()
+    {
+        Claim userIdClaim = User.FindFirst("Id")!;
+        Guid userId = Guid.Parse(userIdClaim.Value);
+
+        UserReturn? user = await _userService.Authorize(userId);
+        return user != null ? Ok(user) : NotFound("{{\"error\": \"user does not exist\"}}");
+    }
+
     [HttpGet("Restricted")]
     [Authorize(Roles = "engineer")]
     [Authorize(Policy = "RequireIdClaim")]
