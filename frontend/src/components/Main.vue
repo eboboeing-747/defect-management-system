@@ -50,7 +50,9 @@ onMounted(async () => {
         v-if="userdata.isLogged"
     >
         <div class="list-align">
-            <CreateCard />
+            <CreateCard
+                v-if="userdata.role == 'manager'"
+            />
             <EstateObjectCard
                 v-for="card in cards"
                 v-bind:object="card"

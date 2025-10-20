@@ -24,3 +24,16 @@ export interface User {
     role: Role,
     isLogged: boolean
 }
+
+export interface UserCredentials {
+    login: string,
+    password: string
+}
+
+export interface UserRegister extends UserCredentials {
+    firstName: string,
+    middleName: string,
+    lastName: string,
+    role: Role,
+    sex: boolean
+}

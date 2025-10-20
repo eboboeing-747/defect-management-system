@@ -1,72 +1,54 @@
-<script setup>
+<script setup lang="ts">
 import { useRouter } from 'vue-router';
-import { ErrorHandler } from '@/helpers/ErrorHandler';
 import { useUserDataStore } from '@/stores/userdata';
-import { onMounted } from 'vue';
 import { Host } from '@/helpers/Host';
+import { ref, type Ref } from 'vue';
+import FormInput from '@/components/FormInput.vue';
+import { type User, type UserCredentials } from '@/helpers/User';
+import { useTemplateRef } from 'vue';
 
 const userstore = useUserDataStore();
 const router = useRouter();
+const login: Ref<typeof FormInput | null> = useTemplateRef<typeof FormInput>('login');
+const password: Ref<typeof FormInput | null> = useTemplateRef<typeof FormInput>('password');
+const errorMessage: Ref<string> = ref('');
 
-let errorHandler = null;
-let authWrapper = null;
-
-onMounted(() => {
-    authWrapper = document.getElementById('auth-wrapper');
-    const errorDisplay = document.getElementById('error-display');
-    errorHandler = new ErrorHandler(errorDisplay);
-});
-
-async function login() {
-    errorHandler.hideErrors();
-
-    let usernameInput = document.getElementById('username');
-    let username = usernameInput.value;
-    let passwordInput = document.getElementById('password');
-    let password = passwordInput.value;
-
-    console.log(`[login] ${username} ${password}`);
-
-    if (username.length < 4) {
-        errorHandler.displayError('username can not subceed 4 characters', [usernameInput]);
+async function logIn(): Promise<void> {
+    if (login.value?.error.present)
         return;
-    }
 
-    if (password.length < 4) {
-        errorHandler.displayError('password can not subceed 4 characters', [passwordInput]);
-        return;
-    }
+    const userCreds: UserCredentials = {
+        login: login.value?.getValue(),
+        password: password.value?.getValue()
+    };
 
-    let params = {
+    const params: RequestInit = {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            login: username,
-            password: password
-        })
+        body: JSON.stringify(userCreds)
     }
 
     try {
-        const res = await fetch(`${Host.getHost()}/User/Login`, params);
+        const res: Response = await fetch(`${Host.getHost()}/User/Login`, params);
 
         switch (res.status) {
-            case 200:
-                const body = await res.json();
-                userstore.LogIn(body);
-                router.push('/');
-                console.log('[login] logged', body);
-                return;
-            case 401:
-                errorHandler.displayError('login or password is incorrect', [usernameInput, passwordInput]);
-                return;
+        case 200:
+            const body: User = await res.json();
+            userstore.LogIn(body);
+            router.push('/');
+            console.log('[logIn] logged', body);
+            return;
+        case 401:
+            errorMessage.value = 'login or password is incorrect';
+            return;
         }
     } catch(error) {
         console.log(error);
-        errorHandler.displayError('failed to rich the server', [authWrapper]);
+        errorMessage.value = 'failed to rich the server';
     }
 }
 </script>
@@ -75,16 +57,31 @@ async function login() {
     <div class="page">
         <div class="spacer"></div>
 
-        <form v-on:submit.prevent="login" id="auth-wrapper" class="auth-wrapper">
-            <h1 class="title">login</h1>
+        <form v-on:submit.prevent="logIn" id="auth-wrapper" class="auth-wrapper">
+            <h1 class="title">log in</h1>
 
-            <input id="username" class="action-field" name="username" type="text" placeholder="username" required>
-            <input id="password" class="action-field" name="password" type="password" placeholder="password" required>
+            <FormInput
+                ref="login"
+                :is-required="true"
+                :min-length="4"
+                placeholder="login"
+                name="login"
+                type="text"
+            />
+
+            <FormInput
+                ref="password"
+                :is-required="true"
+                :min-length="4"
+                placeholder="password"
+                name="password"
+                type="password"
+            />
 
             <button class="action-field">log in</button>
 
             <a class="title" href="/register">dont have an account? register</a>
-            <p id="error-display" class="error-display"></p>
+            <p class="error-message">{{ errorMessage }}</p>
         </form>
     </div>
 </template>

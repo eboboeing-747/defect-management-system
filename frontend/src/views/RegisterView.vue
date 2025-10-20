@@ -1,92 +1,76 @@
-<script setup>
-import { ErrorHandler } from '@/helpers/ErrorHandler';
+<script setup lang="ts">
 import { useUserDataStore } from '@/stores/userdata';
-import { onMounted } from 'vue';
+import { type Ref, useTemplateRef, computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { Host } from '@/helpers/Host';
-import { EMPTY_PFP } from '@/helpers/User';
+import FormInput from '@/components/FormInput.vue';
+import type { UserRegister, User } from '@/helpers/User';
+import { type Role } from '@/helpers/User';
+
+const roles: Role[] = ['engineer', 'manager', 'supervisor'];
+const conflict: Ref<boolean> = ref(false);
 
 const userstore = useUserDataStore();
 const router = useRouter();
 
-let errorHandler = null;
-let authWrapper = null;
+const login: Ref<typeof FormInput | null> = useTemplateRef<typeof FormInput>('login');
+const firstName: Ref<typeof FormInput | null> = useTemplateRef<typeof FormInput>('first-name');
+const middleName: Ref<typeof FormInput | null> = useTemplateRef<typeof FormInput>('middle-name');
+const lastName: Ref<typeof FormInput | null> = useTemplateRef<typeof FormInput>('last-name');
+const password: Ref<typeof FormInput | null> = useTemplateRef<typeof FormInput>('password');
+const verifyPassword: Ref<typeof FormInput | null> = useTemplateRef<typeof FormInput>('verify-password');
+const sex: Ref<typeof HTMLInputElement | null> = useTemplateRef<typeof HTMLInputElement>('sex');
+const role: Ref<typeof HTMLSelectElement | null> = useTemplateRef<typeof HTMLSelectElement>('role');
 
-onMounted(() => {
-    authWrapper = document.getElementById('auth-wrapper');
-    const errorDisplay = document.getElementById('error-display');
-    errorHandler = new ErrorHandler(errorDisplay);
-});
+const errorMessage = computed((): string | null => {
+    if (conflict.value)
+        return 'user with such login already exists';
 
-async function register() {
-    errorHandler.hideErrors();
+    if (password.value?.getValue() != verifyPassword.value?.getValue())
+        return 'passwords does not match';
 
-    const loginInput = document.getElementById('login');
-    const login = loginInput.value;
-    const passwordInput = document.getElementById('password');
-    const password = passwordInput.value;
-    const verifyPasswordInput = document.getElementById('verify-password');
-    const verifyPassword = verifyPasswordInput.value;
-    const firstName = document.getElementById('first-name').value;
-    const middleName = document.getElementById('middle-name').value;
-    const lastName = document.getElementById('last-name').value;
-    const sex = document.getElementById('male').checked;
-    const role = document.getElementById('role').value;
+    return null;
+})
 
-    if (login.length < 4) {
-        errorHandler.displayError('login can not subceed 4 characters', [loginInput]);
+async function register(): Promise<void> {
+    if (errorMessage.value !== null)
         return;
-    }
 
-    if (password.length < 4) {
-        errorHandler.displayError('password can not subceed 4 characters', [passwordInput]);
-        return;
-    }
-
-    if (password !== verifyPassword) {
-        errorHandler.displayError('passwords does not match', [passwordInput, verifyPasswordInput]);
-        return;
-    }
-
-    const user = {
-        login: login,
-        password: password,
-        firstName: firstName,
-        middleName: middleName,
-        lastName: lastName,
-        pfpPath: EMPTY_PFP,
-        sex: sex,
-        role: role
+    const userRegister: UserRegister = {
+        login: login.value?.getValue(),
+        firstName: firstName.value?.getValue(),
+        middleName: middleName.value?.getValue(),
+        lastName: lastName.value?.getValue(),
+        password: password.value?.getValue(),
+        sex: !sex.value?.checked,
+        role: role.value?.value
     };
 
-    let params = {
+    const opts: RequestInit = {
         method: 'POST',
         mode: 'cors',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(userRegister)
     };
 
     try {
-        let res = await fetch(`${Host.getHost()}/User/register`, params);
-
-        console.log(res.status, res.ok);
+        const res: Response = await fetch(`${Host.getHost()}/User/Register`, opts);
+        const user: User = await res.json();
 
         switch (res.status) {
             case 201:
-                router.push('/');
                 userstore.LogIn(user);
+                router.push('/');
                 break;
             case 409:
-                errorHandler.displayError('user with such login already exists', [authWrapper]);
+                conflict.value = true;
                 break;
             default:
-                let body = res.json();
-                errorHandler.displayError(body.error, [authWrapper]);
         }
-    } catch (error) {
-        errorHandler.displayError('unexpected error occured', [authWrapper]);
+    } catch(error: unknown) {
+        console.log(error);
     }
 }
 </script>
@@ -98,40 +82,90 @@ async function register() {
         <form v-on:submit.prevent="register" id="auth-wrapper" class="auth-wrapper">
             <h1 class="title">register</h1>
 
-            <input id="login" class="action-field" name="login" type="text" placeholder="login" required>
-            <input id="first-name" class="action-field" name="first-name" type="text" placeholder="first name" required>
-            <input id="middle-name" class="action-field" name="middle-name" type="text" placeholder="middle name" required>
-            <input id="last-name" class="action-field" name="last-name" type="text" placeholder="last name" required>
-            <input id="password" class="action-field" name="password" type="password" placeholder="password" required>
-            <input id="verify-password" class="action-field" name="verify-password" type="password" placeholder="verify password" required>
+            <FormInput
+                ref="login"
+                :is-required="true"
+                :min-length="4"
+                placeholder="login"
+                name="login"
+                type="text"
+            />
+
+            <FormInput
+                ref="first-name"
+                :is-required="true"
+                placeholder="first-name"
+                name="first-name"
+                type="text"
+            />
+
+            <FormInput
+                ref="middle-name"
+                :is-required="true"
+                placeholder="middle-name"
+                name="middle-name"
+                type="text"
+            />
+
+            <FormInput
+                ref="last-name"
+                :is-required="true"
+                placeholder="last-name"
+                name="last-name"
+                type="text"
+            />
+
+            <FormInput
+                ref="password"
+                :is-required="true"
+                :min-length="4"
+                placeholder="password"
+                name="password"
+                type="password"
+            />
+
+            <FormInput
+                ref="verify-password"
+                :is-required="true"
+                placeholder="verify-password"
+                name="verify-password"
+                type="password"
+            />
 
             <div class="sex-picker">
-                <input id="male" type="radio" name="sex" checked>
+                <input ref="sex" type="radio" name="sex" checked>
                 <label for="male">male</label>
-                <input id="female" type="radio" name="sex">
+                <input type="radio" name="sex">
                 <label for="female">female</label>
             </div>
 
             <div class="dropdown-container">
                 <label for="role">role</label>
-                <select name="role" id="role">
-                    <option value="engineer">engineer</option>
-                    <option value="manager">manager</option>
-                    <option value="supervisor">supervisor</option>
+                <select name="role" ref="role" id="role">
+                    <option
+                        v-for="role in roles"
+                    >
+                        {{ role }}
+                    </option>
                 </select>
             </div>
 
             <button type="submit" class="action-field">register</button>
 
-            <p id="error-display" class="error-display"></p>
+            <p
+                v-if="errorMessage !== null"
+                class="error-message"
+            >{{ errorMessage }}</p>
         </form>
     </div>
 </template>
 
-<style src="../assets/form.css" scoped>
+<style src="@/assets/form.css" scoped>
 </style>
 
 <style scoped>
+@import '@/assets/base.css';
+
 .spacer {
     height: 14vh;
 }
@@ -143,10 +177,13 @@ async function register() {
 }
 
 input[type="radio"] {
-    accent-color: white;
-    background: white;
-    width: 15px;
-    height: 15px;
+    accent-color: var(--background);
+    width: 16px;
+    height: 16px;
+}
+
+input[type="radio"]:checked {
+    accent-color: var(--font);
 }
 
 label {

@@ -48,6 +48,10 @@ input, textarea {
     font-size: 24px;
 }
 
+input:focus-visible, textarea:focus-visible {
+    outline: none;
+}
+
 select {
     font-size: var(--font-size);
     color: var(--font);
@@ -91,15 +95,21 @@ button:active {
 }
 
 .error {
-    border-color: red;
+    border-color: var(--error);
+}
+
+.success {
+    border-color: var(--success);
 }
 
 .error-message {
     color: var(--error);
+    text-align: center;
 }
 
 .success-message {
     color: var(--success);
+    text-align: center;
 }
 
 .error-display {
