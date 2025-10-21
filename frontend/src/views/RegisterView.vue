@@ -5,9 +5,9 @@ import { useRouter } from 'vue-router';
 import { Host } from '@/helpers/Host';
 import FormInput from '@/components/FormInput.vue';
 import type { UserRegister, User } from '@/helpers/User';
-import { type Role } from '@/helpers/User';
+import { Role } from '@/helpers/User';
 
-const roles: Role[] = ['engineer', 'manager', 'supervisor'];
+const roles: Role[] = Object.values(Role);
 const conflict: Ref<boolean> = ref(false);
 
 const userstore = useUserDataStore();

@@ -1,7 +1,12 @@
 import { type Ref } from 'vue';
 
 export const EMPTY_PFP = '/empty-pfp.png';
-export type Role = 'engineer' | 'manager' | 'supervisor' | 'log in to see role';
+
+export enum Role {
+    ENGINEER = 'engineer',
+    MANAGER = 'manager',
+    SUPERVISOR = 'supervisor'
+}
 
 export interface UserRef {
     login: Ref<string>,

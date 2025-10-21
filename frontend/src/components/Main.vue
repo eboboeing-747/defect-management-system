@@ -20,7 +20,6 @@ async function getCards(): Promise<IEstateObjectCard[] | null> {
     };
 
     try {
-        console.log('requesting');
         const res: Response = await fetch(`${Host.getHost()}/EstateObject/GetAll`, opts);
         
         switch (res.status) {

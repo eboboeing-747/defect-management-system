@@ -32,8 +32,11 @@ onMounted((): void => {
 
 <template>
     <header>
-        <div class="role">
+        <div v-if="userdata.isLogged" class="role">
             {{ userdata.role }}
+        </div>
+        <div v-else>
+            log in to see role
         </div>
 
         <div class="account-info">

@@ -1,6 +1,6 @@
 import { ref, type Ref } from 'vue'
 import { defineStore } from 'pinia';
-import { type Role, type User, EMPTY_PFP } from '@/helpers/User.ts'
+import { Role, type User, EMPTY_PFP } from '@/helpers/User.ts'
 
 const defaults: User = {
     login: '',
@@ -9,7 +9,7 @@ const defaults: User = {
     lastName: '',
     pfpPath: EMPTY_PFP,
     sex: false,
-    role: 'log in to see role',
+    role: Role.ENGINEER,
     isLogged: false
 }
 
