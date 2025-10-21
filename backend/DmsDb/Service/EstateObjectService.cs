@@ -55,4 +55,21 @@ public class EstateObjectService
 
         return cards;
     }
+
+    public async Task<EstateObjectReturn?> Get(Guid Id)
+    {
+        EstateObjectEntity? estateObject = await _estateObjectRepository.Get(Id);
+
+        if (estateObject == null)
+            return null;
+
+        List<string> images = await _fileService.GetAllFiles(Id);
+
+        return new EstateObjectReturn {
+            Images = images,
+            Name = estateObject.Name,
+            Address = estateObject.Address,
+            Description = estateObject.Description
+        };
+    }
 }

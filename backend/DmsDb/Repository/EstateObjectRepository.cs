@@ -32,4 +32,12 @@ public class EstateObjectRepository
             })
             .ToListAsync();
     }
+
+    public async Task<EstateObjectEntity?> Get(Guid estateObjectId)
+    {
+        return await _dbContext.EstateObjects
+            .AsNoTracking()
+            .Where(eo => eo.Id == estateObjectId)
+            .FirstOrDefaultAsync();
+    }
 }

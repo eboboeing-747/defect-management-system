@@ -17,11 +17,7 @@ public class ImageController: ControllerBase
     [HttpGet("GetImage/{name}")]
     public async Task<ActionResult> GetImage(string name)
     {
-        Console.WriteLine($"[Image] {name}");
-
-        string filepath = _fileService.GetFilePath(name);
-
-        Console.WriteLine($"[FullPath] {filepath}");
+        string filepath = await _fileService.GetFilePath(name);
 
         return base.PhysicalFile(filepath, $"image/{Path.GetExtension(name)}");
     }

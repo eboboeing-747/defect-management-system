@@ -17,3 +17,11 @@ public record EstateObjectCard
     public string Address { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
 }
+
+public record EstateObjectReturn
+{
+    public List<string> Images { get; set; } = [];
+    public string Address { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+}

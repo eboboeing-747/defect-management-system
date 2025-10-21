@@ -90,12 +90,17 @@ public class FileService
             await fileToCreate.CopyToAsync(fs);
     }
 
+    public async Task<List<string>> GetAllFiles(Guid entityId)
+    {
+        return await _imageRepository.GetFilesByEntityId(entityId);
+    }
+
     public async Task<string?> GetThumbnail(Guid entityId)
     {
         return await _imageRepository.GetThumbnail(entityId);
     }
 
-    public string GetFilePath(string filename)
+    public async Task<string> GetFilePath(string filename)
     {
         return Path.Combine(_fileOptions.RootStore, filename);
     }

@@ -53,18 +53,15 @@ public class EstateObjectController : ControllerBase
         return Ok(await _estateObjectService.GetAll(userId));
     }
 
-    // private Guid? ExtractUserId()
-    // {
-    //     Claim? userIdClaim = User.FindFirst("Id");
-    //
-    //     if (userIdClaim == null)
-    //         return null;
-    //         // return Unauthorized("no \"Id\" claim in authorization token");
-    //
-    //     if (!Guid.TryParse(userIdClaim.Value, out Guid userId))
-    //         return null;
-    //         // return BadRequest("failed to parse \"Id\" claim as Guid");
-    //
-    //     return userId;
-    // }
+    [HttpGet("Get/{Id}")]
+    [Authorize]
+    public async Task<IActionResult> Get(Guid Id)
+    {
+        EstateObjectReturn? estateObject = await _estateObjectService.Get(Id);
+
+        if (estateObject == null)
+            return NotFound();
+
+        return Ok(estateObject);
+    }
 }

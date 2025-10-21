@@ -25,6 +25,7 @@ public class ImageRepository
         await _dbContext.Images.AddAsync(image);
         await _dbContext.SaveChangesAsync();
     }
+
     public async Task<string?> GetThumbnail(Guid entityId)
     {
         return await _dbContext.Images
