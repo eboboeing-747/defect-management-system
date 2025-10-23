@@ -70,14 +70,6 @@ public class UserController : ControllerBase
         return user != null ? Ok(user) : NotFound("{{\"error\": \"user does not exist\"}}");
     }
 
-    [HttpGet("Restricted")]
-    [Authorize(Roles = "engineer")]
-    [Authorize(Policy = "RequireIdClaim")]
-    public IActionResult DoRestricedAction()
-    {
-        return Ok();
-    }
-
     private static void AddJwtToken(string token, HttpContext context)
     {
         context.Response.Cookies.Append("JwtToken", token, new CookieOptions

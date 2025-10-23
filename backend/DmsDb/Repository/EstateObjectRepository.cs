@@ -19,7 +19,7 @@ public class EstateObjectRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<EstateObjectCard>> GetAll(List<Guid> estateObjectIds)
+    public async Task<List<EstateObjectCard>> GetByListOfIds(List<Guid> estateObjectIds)
     {
         return await _dbContext.EstateObjects
             .AsNoTracking()
@@ -33,7 +33,7 @@ public class EstateObjectRepository
             .ToListAsync();
     }
 
-    public async Task<EstateObjectEntity?> Get(Guid estateObjectId)
+    public async Task<EstateObjectEntity?> GetById(Guid estateObjectId)
     {
         return await _dbContext.EstateObjects
             .AsNoTracking()

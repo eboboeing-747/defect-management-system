@@ -45,25 +45,25 @@ public class EstateObjectService
         return HttpStatusCode.Created;
     }
 
-    public async Task<List<EstateObjectCard>> GetAll(Guid userId)
+    public async Task<List<EstateObjectCard>> GetAllOfUser(Guid userId)
     {
-        List<Guid> estateObjectIds = await _userEstateObjectRepository.GetEstateObjectIdsByUserId(userId);
-        List<EstateObjectCard> cards = await _estateObjectRepository.GetAll(estateObjectIds);
+        List<Guid> estateObjectIds = await _userEstateObjectRepository.GetAllWithUser(userId);
+        List<EstateObjectCard> cards = await _estateObjectRepository.GetByListOfIds(estateObjectIds);
 
         foreach (EstateObjectCard card in cards)
-            card.ImagePath = await _fileService.GetThumbnail(card.Id) ?? string.Empty;
+            card.ImagePath = await _fileService.GetFirstOfEntity(card.Id) ?? string.Empty;
 
         return cards;
     }
 
-    public async Task<EstateObjectReturn?> Get(Guid Id)
+    public async Task<EstateObjectReturn?> GetById(Guid estateObjectId)
     {
-        EstateObjectEntity? estateObject = await _estateObjectRepository.Get(Id);
+        EstateObjectEntity? estateObject = await _estateObjectRepository.GetById(estateObjectId);
 
         if (estateObject == null)
             return null;
 
-        List<string> images = await _fileService.GetAllFiles(Id);
+        List<string> images = await _fileService.GetAllOfEntity(estateObjectId);
 
         return new EstateObjectReturn {
             Images = images,

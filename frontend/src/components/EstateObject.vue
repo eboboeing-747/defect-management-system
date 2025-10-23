@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute, useRouter, type Router } from 'vue-router';
 import { Host } from '@/helpers/Host';
-import type { IEstateObjectView } from '@/helpers/EstateObject';
+import type { EstateObject } from '@/helpers/EstateObject';
 import { onMounted, ref, type Ref } from 'vue';
 
 const router: Router = useRouter();
@@ -20,7 +20,7 @@ function getRouteParams(): string | void {
 
 const id: string = getRouteParams()!;
 
-async function GetEstateObject(): Promise<IEstateObjectView | null> {
+async function GetEstateObject(): Promise<EstateObject | null> {
     const opts: RequestInit = {
         method: 'GET',
         mode: 'cors',
@@ -45,7 +45,7 @@ async function GetEstateObject(): Promise<IEstateObjectView | null> {
     return null;
 }
 
-const estateObject: Ref<IEstateObjectView | null> = ref(null);
+const estateObject: Ref<EstateObject | null> = ref(null);
 
 onMounted(async () => {
     estateObject.value = await GetEstateObject();
@@ -57,6 +57,7 @@ onMounted(async () => {
         <h1>
             {{ estateObject?.name }}
         </h1>
+
         <div
             v-if="estateObject !== null"
             class="imagelist"

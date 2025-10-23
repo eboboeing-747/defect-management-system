@@ -1,11 +1,11 @@
-export interface IEstateObjectCard {
+export interface EstateObjectCard {
     id: string;
     imagePath: string;
     name: string;
     address: string;
 }
 
-export interface IEstateObject {
+export interface EstateObjectCreate {
     id: string;
     filelist: File[];
     description: string;
@@ -13,7 +13,7 @@ export interface IEstateObject {
     address: string;
 }
 
-export interface IEstateObjectView {
+export interface EstateObject {
     images: string[];
     description: string;
     name: string;

@@ -25,7 +25,7 @@ public class UserEstateObjectRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<Guid>> GetEstateObjectIdsByUserId(Guid userId)
+    public async Task<List<Guid>> GetAllWithUser(Guid userId)
     {
         return await _dbContext.UserEstateObjectEntities
             .AsNoTracking()

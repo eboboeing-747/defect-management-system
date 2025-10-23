@@ -50,14 +50,14 @@ public class EstateObjectController : ControllerBase
         Claim userIdClaim = User.FindFirst("Id")!;
         Guid userId = Guid.Parse(userIdClaim.Value);
 
-        return Ok(await _estateObjectService.GetAll(userId));
+        return Ok(await _estateObjectService.GetAllOfUser(userId));
     }
 
     [HttpGet("Get/{Id}")]
     [Authorize]
     public async Task<IActionResult> Get(Guid Id)
     {
-        EstateObjectReturn? estateObject = await _estateObjectService.Get(Id);
+        EstateObjectReturn? estateObject = await _estateObjectService.GetById(Id);
 
         if (estateObject == null)
             return NotFound();
