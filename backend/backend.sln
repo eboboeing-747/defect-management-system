@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DmsApi", "DmsApi\DmsApi.csproj", "{A0204FEA-7842-43DE-81B4-0999F99A258D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DmsDb", "DmsDb\DmsDb.csproj", "{F067B7DC-5E2F-4EA8-A027-1ACEF85922A4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0204FEA-7842-43DE-81B4-0999F99A258D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0204FEA-7842-43DE-81B4-0999F99A258D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0204FEA-7842-43DE-81B4-0999F99A258D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0204FEA-7842-43DE-81B4-0999F99A258D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F067B7DC-5E2F-4EA8-A027-1ACEF85922A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F067B7DC-5E2F-4EA8-A027-1ACEF85922A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F067B7DC-5E2F-4EA8-A027-1ACEF85922A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F067B7DC-5E2F-4EA8-A027-1ACEF85922A4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
