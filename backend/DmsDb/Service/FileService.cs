@@ -41,11 +41,11 @@ public class FileService
         return true;
     }
 
-    public async Task<HttpStatusCode> Validate(List<IFormFile> files)
+    public HttpStatusCode Validate(List<IFormFile> files)
     {
         foreach (IFormFile file in files)
         {
-            HttpStatusCode status = await Validate(file);
+            HttpStatusCode status = Validate(file);
 
             if (status != HttpStatusCode.OK)
                 return status;
@@ -54,7 +54,7 @@ public class FileService
         return HttpStatusCode.OK;
     }
 
-    public async Task<HttpStatusCode> Validate(IFormFile file)
+    public HttpStatusCode Validate(IFormFile file)
     {
         if (file.Length > _fileOptions.MaxFileSizeBytes)
             return HttpStatusCode.RequestEntityTooLarge;
@@ -67,7 +67,7 @@ public class FileService
 
     public async Task<HttpStatusCode> CreateFiles(List<IFormFile> files, Guid entityId)
     {
-        HttpStatusCode status = await Validate(files);
+        HttpStatusCode status = Validate(files);
 
         if (status != HttpStatusCode.OK)
             return status;
@@ -100,7 +100,7 @@ public class FileService
         return await _imageRepository.GetFirstOfEntity(entityId);
     }
 
-    public async Task<string> GetFullPath(string filename)
+    public string GetFullPath(string filename)
     {
         return Path.Combine(_fileOptions.RootStore, filename);
     }
