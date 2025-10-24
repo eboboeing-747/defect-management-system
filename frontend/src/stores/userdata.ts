@@ -1,8 +1,8 @@
 import { ref, type Ref } from 'vue'
 import { defineStore } from 'pinia';
-import { Role, type User, EMPTY_PFP } from '@/helpers/User.ts'
+import { Role, type IUser, EMPTY_PFP } from '@/helpers/User.ts'
 
-const defaults: User = {
+const defaults: IUser = {
     login: '',
     firstName: '',
     middleName: '',
@@ -23,7 +23,7 @@ export const useUserDataStore = defineStore('userdata', () => {
     const role: Ref<Role> = ref(defaults.role);
     const isLogged: Ref<boolean> = ref(defaults.isLogged);
 
-    function LogIn(user: User): void {
+    function LogIn(user: IUser): void {
         login.value = user.login;
         firstName.value = user.firstName;
         middleName.value = user.middleName;

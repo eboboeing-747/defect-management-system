@@ -4,7 +4,7 @@ import { useUserDataStore } from '@/stores/userdata';
 import { Host } from '@/helpers/Host';
 import { ref, type Ref } from 'vue';
 import FormInput from '@/components/FormInput.vue';
-import { type User, type UserCredentials } from '@/helpers/User';
+import { type IUser, type IUserCredentials } from '@/helpers/User';
 import { useTemplateRef } from 'vue';
 
 const userstore = useUserDataStore();
@@ -17,7 +17,7 @@ async function logIn(): Promise<void> {
     if (login.value?.error.present)
         return;
 
-    const userCreds: UserCredentials = {
+    const userCreds: IUserCredentials = {
         login: login.value?.getValue(),
         password: password.value?.getValue()
     };
@@ -37,7 +37,7 @@ async function logIn(): Promise<void> {
 
         switch (res.status) {
         case 200:
-            const body: User = await res.json();
+            const body: IUser = await res.json();
             userstore.LogIn(body);
             router.push('/');
             console.log('[logIn] logged', body);

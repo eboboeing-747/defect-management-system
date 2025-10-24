@@ -11,12 +11,12 @@ const props = defineProps<{
 
 const inputValue = defineModel<string>();
 
-interface Error {
+interface IError {
     present: boolean,
     message: string
 }
 
-const error = computed((): Error => {
+const error = computed((): IError => {
     if (!props.minLength)
         return {
             present: false,

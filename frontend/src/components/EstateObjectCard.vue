@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { type EstateObjectCard } from '@/helpers/EstateObject';
+import { type IEstateObjectCard } from '@/helpers/EstateObject';
 import { Host } from '@/helpers/Host';
 
 const props = defineProps<{
-    object: EstateObjectCard
+    object: IEstateObjectCard
 }>();
 </script>
 

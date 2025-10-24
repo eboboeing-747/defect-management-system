@@ -8,7 +8,7 @@ export enum Role {
     SUPERVISOR = 'supervisor'
 }
 
-export interface UserRef {
+export interface IUserRef {
     login: Ref<string>,
     firstName: Ref<string>,
     middleName: Ref<string>,
@@ -19,7 +19,7 @@ export interface UserRef {
     isLogged: Ref<boolean>
 }
 
-export interface User {
+export interface IUser {
     login: string,
     firstName: string,
     middleName: string,
@@ -30,12 +30,12 @@ export interface User {
     isLogged: boolean
 }
 
-export interface UserCredentials {
+export interface IUserCredentials {
     login: string,
     password: string
 }
 
-export interface UserRegister extends UserCredentials {
+export interface IUserRegister extends IUserCredentials {
     firstName: string,
     middleName: string,
     lastName: string,

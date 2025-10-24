@@ -4,7 +4,7 @@ import { type Ref, useTemplateRef, computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { Host } from '@/helpers/Host';
 import FormInput from '@/components/FormInput.vue';
-import type { UserRegister, User } from '@/helpers/User';
+import type { IUserRegister, IUser } from '@/helpers/User';
 import { Role } from '@/helpers/User';
 
 const roles: Role[] = Object.values(Role);
@@ -36,7 +36,7 @@ async function register(): Promise<void> {
     if (errorMessage.value !== null)
         return;
 
-    const userRegister: UserRegister = {
+    const userRegister: IUserRegister = {
         login: login.value?.getValue(),
         firstName: firstName.value?.getValue(),
         middleName: middleName.value?.getValue(),
@@ -57,7 +57,7 @@ async function register(): Promise<void> {
 
     try {
         const res: Response = await fetch(`${Host.getHost()}/User/Register`, opts);
-        const user: User = await res.json();
+        const user: IUser = await res.json();
 
         switch (res.status) {
             case 201:

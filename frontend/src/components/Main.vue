@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type Ref, ref, onMounted } from 'vue';
-import { type EstateObjectCard } from '@/helpers/EstateObject';
+import { type IEstateObjectCard } from '@/helpers/EstateObject';
 import { Host } from '@/helpers/Host';
 import EstateObjectCard from './EstateObjectCard.vue';
 import CreateCard from './CreateCard.vue';
@@ -11,10 +11,10 @@ import { useRouter, type Router } from 'vue-router';
 
 const userdata = useUserDataStore();
 const router: Router = useRouter();
-const cards: Ref<EstateObjectCard[]> = ref([]);
+const cards: Ref<IEstateObjectCard[]> = ref([]);
 const view: Ref<string> = ref('main');
 
-async function getCards(): Promise<EstateObjectCard[] | null> {
+async function getCards(): Promise<IEstateObjectCard[] | null> {
     if (!userdata.isLogged)
         return null;
 

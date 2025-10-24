@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { useRoute, useRouter, type Router } from 'vue-router';
 import { Host } from '@/helpers/Host';
-import type { EstateObject } from '@/helpers/EstateObject';
+import type { IEstateObject } from '@/helpers/EstateObject';
 import { onMounted, ref, type Ref } from 'vue';
+import Carousel from './carousel/Carousel.vue';
+import CarouselItem from './carousel/CarouselItem.vue';
 
 const router: Router = useRouter();
 
@@ -20,7 +22,7 @@ function getRouteParams(): string | void {
 
 const id: string = getRouteParams()!;
 
-async function GetEstateObject(): Promise<EstateObject | null> {
+async function GetEstateObject(): Promise<IEstateObject | null> {
     const opts: RequestInit = {
         method: 'GET',
         mode: 'cors',
@@ -45,7 +47,7 @@ async function GetEstateObject(): Promise<EstateObject | null> {
     return null;
 }
 
-const estateObject: Ref<EstateObject | null> = ref(null);
+const estateObject: Ref<IEstateObject | null> = ref(null);
 
 onMounted(async () => {
     estateObject.value = await GetEstateObject();
@@ -53,21 +55,27 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div>
+    <div class="align">
         <h1>
             {{ estateObject?.name }}
         </h1>
 
         <div
             v-if="estateObject !== null"
-            class="imagelist"
         >
-            <img
-                v-for="image in estateObject?.images"
-                :key="image"
-                :src="`${Host.getHost()}/Image/GetImage/${image}`"
-                class="image"
-            />
+            <Carousel v-slot="props">
+                <CarouselItem
+                    :current="props.current"
+                    :length="props.length"
+                    v-for="(image, index) in estateObject?.images"
+                    :key="index"
+                >
+                    <img
+                        :src="`${Host.getHost()}/Image/GetImage/${image}`"
+                        class="image"
+                    />
+                </CarouselItem>
+            </Carousel>
         </div>
 
         <div v-else>
@@ -80,11 +88,17 @@ onMounted(async () => {
     </div>
 </template>
 
-<style>
+<style scoped>
+@import '@/assets/base.css';
 
 .image {
-    max-height: 300px;
-    max-width: 600px;
+    object-position: center center;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+
+    margin: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
 }
 
 .imagelist {
@@ -94,5 +108,11 @@ onMounted(async () => {
 
 .description {
     white-space: pre-wrap;
+}
+
+.align {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 </style>
