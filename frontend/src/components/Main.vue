@@ -6,13 +6,12 @@ import EstateObjectCard from './estate-object/EstateObjectCard.vue';
 import CreateCard from './CreateCard.vue';
 import { useUserDataStore } from '@/stores/userdata';
 import { Role } from '@/helpers/User';
-import EstateObject from './estate-object/EstateObject.vue';
+import CreateEstateObject from './estate-object/CreateEstateObject.vue';
 import { useRouter, type Router } from 'vue-router';
 
 const userdata = useUserDataStore();
 const router: Router = useRouter();
 const cards: Ref<IEstateObjectCard[]> = ref([]);
-const view: Ref<string> = ref('main');
 
 async function getCards(): Promise<IEstateObjectCard[] | null> {
     if (!userdata.isLogged)
@@ -57,7 +56,10 @@ onMounted(async () => {
         <div class="list-align">
             <CreateCard
                 v-if="userdata.role == Role.MANAGER"
-            />
+            >
+                <CreateEstateObject />
+            </CreateCard>
+
             <EstateObjectCard
                 v-for="card in cards"
                 v-bind:object="card"

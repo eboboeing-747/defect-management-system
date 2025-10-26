@@ -85,6 +85,8 @@ onMounted(async () => {
         <h2>{{ estateObject?.address }}</h2>
 
         <p class="description">{{ estateObject?.description }}</p>
+
+
     </div>
 </template>
 
