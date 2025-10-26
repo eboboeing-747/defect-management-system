@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type Ref, ref } from 'vue';
-import FileDisplay from './FileDisplay.vue';
+import FileDisplay from '@/components/file-upload/FileDisplay.vue';
 
 const filelist: Ref<File[]> = ref([]);
 const extentions: string[] = ['.png', '.jpg', '.jpeg'];
@@ -13,7 +13,10 @@ function getExtention(filename: string): string {
     return filename.substring(filename.lastIndexOf('.'), filename.length) || filename;
 }
 
-function onDrop(event: DropEvent): void {
+function onDrop(event: DragEvent): void {
+    if (event.dataTransfer === null)
+        return;
+
     for (const file of event.dataTransfer.files) {
         const filename = file.name;
         const extention: string = getExtention(filename);

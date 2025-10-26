@@ -3,8 +3,8 @@ import { useRoute, useRouter, type Router } from 'vue-router';
 import { Host } from '@/helpers/Host';
 import type { IEstateObject } from '@/helpers/EstateObject';
 import { onMounted, ref, type Ref } from 'vue';
-import Carousel from './carousel/Carousel.vue';
-import CarouselItem from './carousel/CarouselItem.vue';
+import Carousel from '@/components/carousel/Carousel.vue';
+import CarouselItem from '@/components/carousel/CarouselItem.vue';
 
 const router: Router = useRouter();
 

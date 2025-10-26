@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type Ref, ref } from 'vue';
-import FileUpload from './FileUpload.vue';
+import FileUpload from '@/components/file-upload/FileUpload.vue';
 import { useTemplateRef } from 'vue';
 import { Host } from '@/helpers/Host';
 

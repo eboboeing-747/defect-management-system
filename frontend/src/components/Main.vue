@@ -2,11 +2,11 @@
 import { type Ref, ref, onMounted } from 'vue';
 import { type IEstateObjectCard } from '@/helpers/EstateObject';
 import { Host } from '@/helpers/Host';
-import EstateObjectCard from './EstateObjectCard.vue';
+import EstateObjectCard from './estate-object/EstateObjectCard.vue';
 import CreateCard from './CreateCard.vue';
 import { useUserDataStore } from '@/stores/userdata';
 import { Role } from '@/helpers/User';
-import EstateObject from './EstateObject.vue';
+import EstateObject from './estate-object/EstateObject.vue';
 import { useRouter, type Router } from 'vue-router';
 
 const userdata = useUserDataStore();
