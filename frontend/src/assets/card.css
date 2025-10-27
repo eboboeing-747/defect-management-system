@@ -6,14 +6,19 @@
     padding: 10px;
 
     margin: 16px;
-    width: 300px;
     border-radius: var(--border-radius);
 
     border: 1px solid var(--border-color);
 }
 
+.card-image-wrap {
+    display: flex;
+    height: 100%;
+}
+
 .card-image {
-    object-fit: contain;
+    object-fit: cover;
+    max-width: 100%;
 }
 
 .card-field {

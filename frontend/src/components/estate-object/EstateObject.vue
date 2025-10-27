@@ -5,6 +5,7 @@ import type { IEstateObject } from '@/helpers/EstateObject';
 import { onMounted, ref, type Ref } from 'vue';
 import Carousel from '@/components/carousel/Carousel.vue';
 import CarouselItem from '@/components/carousel/CarouselItem.vue';
+import CreateCard from '../CreateCard.vue';
 
 const router: Router = useRouter();
 
@@ -82,11 +83,25 @@ onMounted(async () => {
             loading content...
         </div>
 
-        <h2>{{ estateObject?.address }}</h2>
+        <div>
+            <h4 class="hint">
+                address
+            </h4>
+
+            <h2 class="address">
+                {{ estateObject?.address }}
+            </h2>
+        </div>
 
         <p class="description">{{ estateObject?.description }}</p>
 
-
+        <div class="defect-list">
+            <CreateCard />
+            <CreateCard />
+            <CreateCard />
+            <CreateCard />
+            <CreateCard />
+        </div>
     </div>
 </template>
 
@@ -116,5 +131,21 @@ onMounted(async () => {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 50%;
+}
+
+.hint {
+    color: var(--hint);
+    margin: 16px 0px 0px 0px;
+}
+
+.address {
+    margin: 0px;
+}
+
+.defect-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
 }
 </style>

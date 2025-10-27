@@ -77,8 +77,7 @@ onMounted(async () => {
 
 .list-align {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-items: center;
-    justify-content: space-between;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 50%;
 }
 </style>

@@ -9,11 +9,13 @@ const props = defineProps<{
 
 <template>
     <div class="body">
-        <img
-            class="card-image"
-            :src="`${Host.getHost()}/Image/GetImage/${props.object.imagePath}`"
-            :alt="props.object.imagePath"
-        />
+        <div class="card-image-wrap">
+            <img
+                class="card-image"
+                :src="`${Host.getHost()}/Image/GetImage/${props.object.imagePath}`"
+                :alt="props.object.imagePath"
+            />
+        </div>
         <div class="card-field">
             {{ props.object.name }}
         </div>
