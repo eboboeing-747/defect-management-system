@@ -38,23 +38,24 @@ export function next(current: number, length: number): number {
 
 
         <button
-            class="prev scroll-button"
+            v-if="length >= 2"
+            class="prev scroll-button nf nf-fa-chevron_left"
             @click="current = prev(current, length)"
         >
-            &lt;
         </button>
 
         <button
-            class="next scroll-button"
+            v-if="length >= 2"
+            class="next scroll-button nf nf-fa-chevron_right"
             @click="current = next(current, length)"
         >
-            &gt;
         </button>
     </div>
 </template>
 
 <style scoped>
 @import '@/assets/base.css';
+@import 'https://www.nerdfonts.com/assets/css/webfont.css';
 
 .carousel {
     position: relative;
@@ -69,7 +70,8 @@ export function next(current: number, length: number): number {
     border-radius: var(--border-radius);
     border: 2px solid var(--font);
     color: var(--font);
-    font-size: 24px;
+    background-color: var(--background);
+    font-size: 16px;
     text-align: center;
     z-index: 1;
 }

@@ -8,6 +8,7 @@ import CarouselItem from '@/components/carousel/CarouselItem.vue';
 import CreateCard from '../CreateCard.vue';
 
 const router: Router = useRouter();
+const isCollapsedDescription: Ref<boolean> = ref(true);
 
 function getRouteParams(): string | void {
     const route = useRoute();
@@ -83,23 +84,37 @@ onMounted(async () => {
             loading content...
         </div>
 
-        <div>
-            <h4 class="hint">
+        <div style="margin-top: 16px">
+            <i class="hint">
                 address
-            </h4>
+            </i>
 
             <h2 class="address">
                 {{ estateObject?.address }}
             </h2>
         </div>
 
-        <p class="description">{{ estateObject?.description }}</p>
+        <div class="description-wrap">
+            <div class="description-collapse-bar">
+                <i class="hint">description</i>
+
+                <button
+                    class="collapse-extend nf"
+                    :class="[isCollapsedDescription ? 'nf-fa-chevron_down' : 'nf-fa-chevron_up' ]"
+                    @click="isCollapsedDescription = !isCollapsedDescription"
+                >
+                </button>
+            </div>
+
+            <p
+                class="description"
+                :class="{ 'description-collapse': isCollapsedDescription }"
+            >
+                {{ estateObject?.description }}
+            </p>
+        </div>
 
         <div class="defect-list">
-            <CreateCard />
-            <CreateCard />
-            <CreateCard />
-            <CreateCard />
             <CreateCard />
         </div>
     </div>
@@ -113,7 +128,6 @@ onMounted(async () => {
     aspect-ratio: 4 / 3;
     object-fit: cover;
 
-    margin: 20px;
     border: 2px solid var(--border-color);
     border-radius: var(--border-radius);
 }
@@ -123,8 +137,48 @@ onMounted(async () => {
     flex-direction: row;
 }
 
+.collapse-extend {
+    padding: 10px;
+    border-radius: var(--border-radius);
+    color: var(--font);
+    background-color: transparent;
+    border: none;
+}
+
+.collapse-extend:hover {
+    background-color: var(--font);
+    color: var(--background);
+}
+
+.collapse-extend:active {
+    background-color: var(--background);
+    color: var(--font);
+}
+
 .description {
+    overflow: hidden;
     white-space: pre-wrap;
+    margin: 0;
+}
+
+.description-wrap {
+    display: flex;
+    flex-direction: column;
+    margin: 16px;
+}
+
+.description-collapse {
+    line-clamp: 8;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 8;
+}
+
+.description-collapse-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .align {
@@ -136,7 +190,7 @@ onMounted(async () => {
 
 .hint {
     color: var(--hint);
-    margin: 16px 0px 0px 0px;
+    margin: 0px;
 }
 
 .address {

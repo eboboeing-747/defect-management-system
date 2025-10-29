@@ -28,10 +28,6 @@ const position = computed((): Position => {
         class="carousel-item"
         :class="position"
     >
-        <!--
-        <div>{{ position + ' ' + props.current  + ' ' + instance?.vnode.key?.toString() }}</div>
-        -->
-
         <slot />
     </div>
 </template>
@@ -44,25 +40,18 @@ const position = computed((): Position => {
 }
 
 .prev {
-    right: 450px;
-    border: 2px solid red;
+    right: 64%;
     height: 30vh;
-
-    /* visibility: hidden; */
 }
 
 .current {
     position: static;
-    border: 2px solid yellow;
     z-index: 1;
 }
 
 .next {
-    left: 450px;
-    border: 2px solid green;
+    left: 64%;
     height: 30vh;
-
-    /* visibility: hidden; */
 }
 
 .hidden {

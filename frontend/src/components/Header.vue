@@ -110,6 +110,11 @@ header {
     justify-content: space-between;
     padding: 10px 16px;
     align-items: center;
+    position: sticky;
+    top: 0;
+
+    backdrop-filter: blur(4px);
+    z-index: 2;
 }
 
 .role {
