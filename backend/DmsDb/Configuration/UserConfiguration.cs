@@ -8,6 +8,17 @@ public class UserConfiguration : IEntityTypeConfiguration<UserEntity>
 {
     public void Configure(EntityTypeBuilder<UserEntity> builder)
     {
-        builder.HasKey(user => user.Id);
+        builder
+            .HasKey(u => u.Id);
+
+        builder
+            .HasMany(u => u.EstateObjects)
+            .WithMany(eo => eo.Users);
+
+        builder
+            .HasMany(u => u.Defects)
+            .WithOne(d => d.OriginalPoster)
+            .HasForeignKey(d => d.OriginalPosterId)
+            .IsRequired(false);
     }
 }

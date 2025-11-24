@@ -8,7 +8,10 @@ public class UserEntity
     public string FirstName { get; set; } = string.Empty;
     public string MiddleName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
-    public string PfpPath { get; set; } = string.Empty;
+    public string? PfpPath { get; set; } = null;
     public bool Sex { get; set; }
     public string Role { get; set; } = string.Empty;
+
+    public List<EstateObjectEntity> EstateObjects { get; } = [];
+    public List<DefectEntity> Defects { get; } = [];
 }

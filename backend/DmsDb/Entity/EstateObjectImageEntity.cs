@@ -1,10 +1,11 @@
 namespace DmsDb.Entity;
 
-public class ImageEntity
+public class EstateObjectImageEntity
 {
     public Guid Id { get; set; }
-    public Guid EntityId { get; set; }
+    public Guid? EsateObjectId { get; set; }
     public string Name { get; set; } = string.Empty;
-    public string Desctiption { get; set; } = string.Empty;
     public string Path { get; set; } = string.Empty;
+
+    public EstateObjectEntity? EstateObject { get; } = null;
 }
