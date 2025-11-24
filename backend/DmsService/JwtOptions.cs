@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace DmsDb;
+namespace DmsService;
 
 public class JwtOptions
 {

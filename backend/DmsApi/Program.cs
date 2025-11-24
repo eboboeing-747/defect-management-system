@@ -1,6 +1,7 @@
-using DmsDb;
+using DmsService.Service;
+using DmsService;
 using DmsDb.Repository;
-using DmsDb.Service;
+using DmsDb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -60,7 +61,7 @@ public class Program
         builder.Services.AddScoped<FileService>();
 
         builder.Services.AddScoped(provider => { return new JwtOptions(configuration); });
-        builder.Services.AddScoped(provider => { return new DmsDb.FileOptions(configuration); });
+        builder.Services.AddScoped(provider => { return new DmsService.FileOptions(configuration); });
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

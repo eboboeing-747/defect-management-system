@@ -1,4 +1,4 @@
-namespace DmsDb.Object;
+namespace DmsService.Object;
 
 public record UserCredentials
 {

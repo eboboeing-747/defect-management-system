@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
-using DmsDb.Object;
-using DmsDb.Service;
+using DmsService.Object;
+using DmsService.Service;
 using System.Net;
 using System.Security.Claims;
 

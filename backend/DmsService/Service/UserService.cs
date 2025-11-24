@@ -1,13 +1,12 @@
-using DmsDb.Object;
 using DmsDb.Repository;
 using DmsDb.Entity;
-using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
+using DmsService.Object;
 
-namespace DmsDb.Service;
+namespace DmsService.Service;
 
 public class UserService
 {

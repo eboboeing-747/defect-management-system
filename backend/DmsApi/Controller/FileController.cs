@@ -1,4 +1,4 @@
-using DmsDb.Service;
+using DmsService.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DmsApi.Controller;

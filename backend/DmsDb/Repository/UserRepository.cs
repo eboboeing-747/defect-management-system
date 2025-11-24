@@ -53,32 +53,6 @@ public class UserRepository
         return true;
     }
 
-    // public async Task<bool> Update(Guid userId, UserUpdate userToUpdate)
-    // {
-    //     if (!await this.Exists(userId))
-    //         return false;
-    //
-    //     await this._dbContext.Users
-    //         .Where(user => user.Id == userId)
-    //         .ExecuteUpdateAsync(setters => setters
-    //                 .SetProperty(user => user.FirstName, userToUpdate.FirstName)
-    //                 .SetProperty(user => user.LastName, userToUpdate.LastName)
-    //                 .SetProperty(user => user.PfpPath, userToUpdate.pfpPath)
-    //                 );
-    //
-    //     return true;
-    // }
-
-    // public async Task<List<UserEntity>> Find(string query)
-    // {
-    //     return await this._dbContext.Users
-    //         .AsNoTracking()
-    //         .Where(user => EF.Functions.ILike(
-    //                     user.Login + " " + user.FirstName + " " + user.LastName, $@"%{query}%"
-    //                     ))
-    //         .ToListAsync();
-    // }
-
     public bool IsEmpty()
     {
         return !this._dbContext.Users.Any(user => true);

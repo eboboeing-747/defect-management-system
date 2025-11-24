@@ -1,11 +1,8 @@
-using DmsDb.Entity;
-using Microsoft.Extensions.Primitives;
-using DmsDb.Service;
-using DmsDb.Object;
+using DmsService.Service;
+using DmsService.Object;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using System.Collections.Specialized;
 
 namespace DmsApi.Controller;
 

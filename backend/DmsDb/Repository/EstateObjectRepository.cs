@@ -1,6 +1,5 @@
 using DmsDb.Entity;
 using Microsoft.EntityFrameworkCore;
-using DmsDb.Object;
 
 namespace DmsDb.Repository;
 
@@ -19,17 +18,11 @@ public class EstateObjectRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<EstateObjectCard>> GetByListOfIds(List<Guid> estateObjectIds)
+    public async Task<List<EstateObjectEntity>> GetByListOfIds(List<Guid> estateObjectIds)
     {
         return await _dbContext.EstateObjects
             .AsNoTracking()
             .Where(eo => estateObjectIds.Contains(eo.Id))
-            .Select<EstateObjectEntity, EstateObjectCard>(eo => new EstateObjectCard
-            {
-                Id = eo.Id,
-                Name = eo.Name,
-                Address = eo.Address
-            })
             .ToListAsync();
     }
 

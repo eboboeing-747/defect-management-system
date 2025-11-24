@@ -1,4 +1,4 @@
-namespace DmsDb.Service;
+namespace DmsService.Service;
 
 using System.Net;
 using DmsDb.Repository;

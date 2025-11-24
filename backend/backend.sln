@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DmsApi", "DmsApi\DmsApi.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DmsDb", "DmsDb\DmsDb.csproj", "{F067B7DC-5E2F-4EA8-A027-1ACEF85922A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DmsService", "DmsService\DmsService.csproj", "{9D04B8AB-D819-4ABD-91CA-DEC2ED113158}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{F067B7DC-5E2F-4EA8-A027-1ACEF85922A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F067B7DC-5E2F-4EA8-A027-1ACEF85922A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F067B7DC-5E2F-4EA8-A027-1ACEF85922A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D04B8AB-D819-4ABD-91CA-DEC2ED113158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D04B8AB-D819-4ABD-91CA-DEC2ED113158}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D04B8AB-D819-4ABD-91CA-DEC2ED113158}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D04B8AB-D819-4ABD-91CA-DEC2ED113158}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

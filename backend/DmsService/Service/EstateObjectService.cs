@@ -1,11 +1,9 @@
 using System.Net;
 using DmsDb.Repository;
 using DmsDb.Entity;
-using DmsDb.Object;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using DmsService.Object;
 
-namespace DmsDb.Service;
+namespace DmsService.Service;
 
 public class EstateObjectService
 {
@@ -48,10 +46,19 @@ public class EstateObjectService
     public async Task<List<EstateObjectCard>> GetAllOfUser(Guid userId)
     {
         List<Guid> estateObjectIds = await _userEstateObjectRepository.GetAllWithUser(userId);
-        List<EstateObjectCard> cards = await _estateObjectRepository.GetByListOfIds(estateObjectIds);
+        List<EstateObjectEntity> entities = await _estateObjectRepository.GetByListOfIds(estateObjectIds);
+        List<EstateObjectCard> cards = [];
 
-        foreach (EstateObjectCard card in cards)
-            card.ImagePath = await _fileService.GetFirstOfEntity(card.Id) ?? string.Empty;
+        foreach (EstateObjectEntity entity in entities) {
+            EstateObjectCard card = new EstateObjectCard {
+                Id = entity.Id,
+                ImagePath = await _fileService.GetFirstOfEntity(entity.Id) ?? string.Empty,
+                Name = entity.Name,
+                Address = entity.Address
+            };
+
+            cards.Add(card);
+        }
 
         return cards;
     }

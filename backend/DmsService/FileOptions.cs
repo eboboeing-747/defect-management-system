@@ -1,8 +1,7 @@
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 
-namespace DmsDb;
+namespace DmsService;
 
 public class FileOptions
 {
