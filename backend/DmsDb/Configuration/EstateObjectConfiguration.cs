@@ -24,7 +24,7 @@ public class EstateObjectConfiguration : IEntityTypeConfiguration<EstateObjectEn
         builder
             .HasMany(eo => eo.Images)
             .WithOne(i => i.EstateObject)
-            .HasForeignKey(i => i.EsateObjectId)
+            .HasForeignKey(i => i.EstateObjectId)
             .IsRequired(false);
     }
 }

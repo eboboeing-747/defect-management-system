@@ -13,7 +13,8 @@ public class UserConfiguration : IEntityTypeConfiguration<UserEntity>
 
         builder
             .HasMany(u => u.EstateObjects)
-            .WithMany(eo => eo.Users);
+            .WithMany(eo => eo.Users)
+            .UsingEntity<UserEstateObjectEntity>();
 
         builder
             .HasMany(u => u.Defects)

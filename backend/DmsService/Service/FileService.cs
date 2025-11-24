@@ -8,14 +8,14 @@ using System.Globalization;
 public class FileService
 {
     private readonly FileOptions _fileOptions;
-    private readonly ImageRepository _imageRepository;
+    private readonly EstateObjectImageRepository _eoImageRepository;
 
     public FileService(
         FileOptions fileOptions,
-        ImageRepository imageRepository
+        EstateObjectImageRepository imageRepository
     ) {
         this._fileOptions = fileOptions;
-        this._imageRepository = imageRepository;
+        this._eoImageRepository = imageRepository;
     }
 
     public bool CheckRootStorage()
@@ -84,7 +84,7 @@ public class FileService
         string newFileName = $"[{dateTime}]{Path.GetRandomFileName()}{Path.GetExtension(fileToCreate.FileName)}";
         string fullPath = Path.Combine(_fileOptions.RootStore, newFileName);
 
-        await _imageRepository.Create(newFileName, entityId);
+        await _eoImageRepository.Create(newFileName, entityId);
 
         using (FileStream fs = File.Create(fullPath))
             await fileToCreate.CopyToAsync(fs);
@@ -92,12 +92,12 @@ public class FileService
 
     public async Task<List<string>> GetAllOfEntity(Guid entityId)
     {
-        return await _imageRepository.GetAllOfEntity(entityId);
+        return await _eoImageRepository.GetAllOfEstateObject(entityId);
     }
 
     public async Task<string?> GetFirstOfEntity(Guid entityId)
     {
-        return await _imageRepository.GetFirstOfEntity(entityId);
+        return await _eoImageRepository.GetFirstOfEntity(entityId);
     }
 
     public string GetFullPath(string filename)

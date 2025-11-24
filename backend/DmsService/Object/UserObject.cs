@@ -20,7 +20,7 @@ public record UserUpdate
     public string FirstName { get; init; } = string.Empty;
     public string MiddleName { get; init; } = string.Empty;
     public string LastName { get; init; } = string.Empty;
-    public string PfpPath { get; init; } = string.Empty;
+    public string? PfpPath { get; init; } = string.Empty;
 }
 
 public record UserReturn : UserUpdate

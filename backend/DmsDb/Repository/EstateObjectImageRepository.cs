@@ -1,13 +1,13 @@
-using DmsDb.Entity;
 using Microsoft.EntityFrameworkCore;
+using DmsDb.Entity;
 
 namespace DmsDb.Repository;
 
-public class ImageRepository
+public class EstateObjectImageRepository
 {
     private readonly DmsDbContext _dbContext;
 
-    public ImageRepository(
+    public EstateObjectImageRepository(
         DmsDbContext dbContext
     ) {
         this._dbContext = dbContext;
@@ -15,31 +15,31 @@ public class ImageRepository
 
     public async Task Create(string filename, Guid entityId)
     {
-        ImageEntity image = new ImageEntity
+        EstateObjectImageEntity image = new EstateObjectImageEntity
         {
             Id = Guid.NewGuid(),
-            EntityId = entityId,
+            EstateObjectId = entityId,
             Path = filename
         };
 
-        await _dbContext.Images.AddAsync(image);
+        await _dbContext.EstateObjectImages.AddAsync(image);
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<string>> GetAllOfEntity(Guid entityId)
+    public async Task<List<string>> GetAllOfEstateObject(Guid estateObject)
     {
-        return await _dbContext.Images
+        return await _dbContext.EstateObjectImages
             .AsNoTracking()
-            .Where(image => image.EntityId == entityId)
+            .Where(image => image.EstateObjectId == estateObject)
             .Select(image => image.Path)
             .ToListAsync();
     }
 
     public async Task<string?> GetFirstOfEntity(Guid entityId)
     {
-        return await _dbContext.Images
+        return await _dbContext.EstateObjectImages
             .AsNoTracking()
-            .Where(image => image.EntityId == entityId)
+            .Where(image => image.EstateObjectId == entityId)
             .Select(image => image.Path)
             .FirstOrDefaultAsync();
     }
