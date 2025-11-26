@@ -29,7 +29,7 @@ public class UserService
         return user != null ? Convert(user) : null;
     }
 
-    public async Task<(string?, UserReturn?)> Login(string login, string password)
+    public async Task<(string?, UserReturn?)> LogIn(string login, string password)
     {
         UserEntity? user = await _userRepository.GetByLogin(login);
 

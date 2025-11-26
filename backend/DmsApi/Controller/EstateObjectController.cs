@@ -26,9 +26,6 @@ public class EstateObjectController : ControllerBase
         Claim userIdClaim = User.FindFirst("Id")!;
         Guid userId = Guid.Parse(userIdClaim.Value);
 
-        // if (!Guid.TryParse(userIdClaim.Value, out Guid userId))
-        //     return BadRequest("failed to parse \"Id\" claim as Guid");
-
         HttpStatusCode status = await _estateObjectService.Create(userId, estateObject);
 
         switch (status)

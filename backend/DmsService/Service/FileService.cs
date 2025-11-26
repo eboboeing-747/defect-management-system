@@ -100,6 +100,7 @@ public class FileService
         return await _eoImageRepository.GetFirstOfEntity(entityId);
     }
 
+    // TODO: check if file exists and if not return null
     public string GetFullPath(string filename)
     {
         return Path.Combine(_fileOptions.RootStore, filename);

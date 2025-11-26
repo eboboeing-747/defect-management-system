@@ -23,7 +23,7 @@ public class UserController : ControllerBase
     ) {
         Console.WriteLine($"[Login] {user}");
 
-        (string? token, UserReturn? userToReturn) = await this._userService.Login(user.Login, user.Password);
+        (string? token, UserReturn? userToReturn) = await _userService.LogIn(user.Login, user.Password);
 
         if (token == null)
             return Results.Unauthorized();

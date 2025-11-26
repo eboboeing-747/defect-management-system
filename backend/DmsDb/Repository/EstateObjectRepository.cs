@@ -12,10 +12,21 @@ public class EstateObjectRepository
         this._dbContext = dbContext;
     }
 
-    public async Task Create(EstateObjectEntity estateObject)
+    public async Task<bool> Create(Guid userId, EstateObjectEntity estateObject)
     {
-        await _dbContext.EstateObjects.AddAsync(estateObject);
+        UserEntity? user = await _dbContext.Users
+            .Include(u => u.EstateObjects)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (user == null)
+            return false;
+
+        _dbContext.EstateObjects.Add(estateObject);
+
+        user.EstateObjects.Add(estateObject);
         await _dbContext.SaveChangesAsync();
+
+        return true;
     }
 
     public async Task<List<EstateObjectEntity>> GetByListOfIds(List<Guid> estateObjectIds)
@@ -37,34 +48,46 @@ public class EstateObjectRepository
 
     public async Task<List<EstateObjectEntity>> GetByUserId(Guid userId)
     {
-        return await _dbContext.EstateObjects
+        List<EstateObjectEntity> estateObjects = await _dbContext.Users
             .AsNoTracking()
-            .Where(eo => eo.Users.Any(u => u.Id == userId))
-            .Include(eo => eo.Images.FirstOrDefault())
-            .ToListAsync();
+            .Where(u => u.Id == userId)
+            .AsSplitQuery()
+            .Include(u => u.EstateObjects)
+                .ThenInclude(eo => eo.Images)
+            .Select(u => u.EstateObjects)
+            .FirstAsync();
 
-        Task<List<EstateObjectEntity>> list = (
-            from ueo in _dbContext.UserEstateObjects
-            join eo in _dbContext.EstateObjects.Include(e => e.Images) on ueo.EsatateObjectId equals eo.Id
-            where ueo.UserId == userId
-            select eo
-            // select new EstateObjectEntity
-            // {
-            //     Id = eo.Id,
-            //     Address = eo.Address,
-            //     Name = eo.Name,
-            //     Description = eo.Description,
-            //     Images = eo.Images.Select(i => new EstateObjectImageEntity
-            //     {
-            //         Id = i.Id,
-            //         EstateObjectId = null,
-            //         Name = i.Name,
-            //         Path = i.Path,
-            //         EstateObject = null,
-            //     }).ToListAsync()
-            // }
-        ).ToListAsync();
+        return estateObjects;
 
-        return await list;
+        // return await _dbContext.EstateObjects
+        //     .AsNoTracking()
+        //     .Where(eo => eo.Users.Any(u => u.Id == userId))
+        //     .Include(eo => eo.Images /* .FirstOrDefault() */)
+        //     .ToListAsync();
+
+        // Task<List<EstateObjectEntity>> list = (
+        //     from ueo in _dbContext.UserEstateObjects
+        //     join eo in _dbContext.EstateObjects.Include(e => e.Images) on ueo.EsatateObjectId equals eo.Id
+        //     where ueo.UserId == userId
+        //     select eo
+        //     // select new EstateObjectEntity
+        //     // {
+        //     //     Id = eo.Id,
+        //     //     Address = eo.Address,
+        //     //     Name = eo.Name,
+        //     //     Description = eo.Description,
+        //     //     Images = eo.Images.Select(i => new EstateObjectImageEntity
+        //     //     {
+        //     //         Id = i.Id,
+        //     //         EstateObjectId = null,
+        //     //         Name = i.Name,
+        //     //         Path = i.Path,
+        //     //         EstateObject = null,
+        //     //     }).ToListAsync()
+        //     // }
+        // ).ToListAsync();
+
+        // return await list;
+        return [];
     }
 }
