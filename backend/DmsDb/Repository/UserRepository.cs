@@ -14,47 +14,47 @@ public class UserRepository
 
     public async Task<bool> Exists(string login)
     {
-        return await this._dbContext.Users
+        return await _dbContext.Users
             .AsNoTracking()
             .AnyAsync(user => user.Login == login);
     }
 
     public async Task<bool> Exists(Guid Id)
     {
-        return await this._dbContext.Users
+        return await _dbContext.Users
             .AsNoTracking()
             .AnyAsync(user => user.Id == Id);
     }
 
     public async Task<UserEntity?> GetByLogin(string login)
     {
-        return await this._dbContext.Users
+        return await _dbContext.Users
             .AsNoTracking()
             .FirstOrDefaultAsync(user => user.Login == login);
     }
 
     public async Task<UserEntity?> GetById(Guid Id)
     {
-        return await this._dbContext.Users
+        return await _dbContext.Users
             .AsNoTracking()
             .FirstOrDefaultAsync(user => user.Id == Id);
     }
 
     public async Task<bool> Create(UserEntity user)
     {
-        if (await this.Exists(user.Login))
+        if (await Exists(user.Login))
             return false;
 
         user.Id = Guid.NewGuid();
 
-        await this._dbContext.Users.AddAsync(user);
-        await this._dbContext.SaveChangesAsync();
+        await _dbContext.Users.AddAsync(user);
+        await _dbContext.SaveChangesAsync();
 
         return true;
     }
 
     public bool IsEmpty()
     {
-        return !this._dbContext.Users.Any(user => true);
+        return !_dbContext.Users.Any(user => true);
     }
 }

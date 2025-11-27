@@ -8,6 +8,24 @@ public class UserConfiguration : IEntityTypeConfiguration<UserEntity>
 {
     public void Configure(EntityTypeBuilder<UserEntity> builder)
     {
-        builder.HasKey(user => user.Id);
+        builder
+            .HasKey(u => u.Id);
+
+        builder
+            .HasMany(u => u.EstateObjects)
+            .WithMany(eo => eo.Users)
+            .UsingEntity<EstateObjectEntityUserEntity>(
+                "EstateObjectEntityUserEntity",
+                r => r.HasOne<EstateObjectEntity>(jt => jt.EstateObject)
+                    .WithMany(eo => eo.UserToEstateObjects),
+                l => l.HasOne<UserEntity>(jt => jt.User)
+                    .WithMany(u => u.UserToEstateObjects)
+            );
+
+        builder
+            .HasMany(u => u.Defects)
+            .WithOne(d => d.OriginalPoster)
+            .HasForeignKey(d => d.OriginalPosterId)
+            .IsRequired();
     }
 }

@@ -19,6 +19,9 @@ public class ImageController: ControllerBase
     {
         string filepath = _fileService.GetFullPath(name);
 
+        if (!FileService.Exists(filepath))
+            return NotFound();
+
         return base.PhysicalFile(filepath, $"image/{Path.GetExtension(name)}");
     }
 }

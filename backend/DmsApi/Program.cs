@@ -53,8 +53,7 @@ public class Program
 
         builder.Services.AddScoped<UserRepository>();
         builder.Services.AddScoped<EstateObjectRepository>();
-        builder.Services.AddScoped<ImageRepository>();
-        builder.Services.AddScoped<UserEstateObjectRepository>();
+        builder.Services.AddScoped<EstateObjectImageRepository>();
 
         builder.Services.AddScoped<UserService>();
         builder.Services.AddScoped<EstateObjectService>();

@@ -8,6 +8,6 @@ public class DefectCommentConfiguration : IEntityTypeConfiguration<DefectComment
 {
     public void Configure(EntityTypeBuilder<DefectCommentEntity> builder)
     {
-        builder.HasKey(defectComment => defectComment.Id);
+        builder.HasKey(comment => comment.Id);
     }
 }
