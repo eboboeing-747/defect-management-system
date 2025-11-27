@@ -11,7 +11,8 @@ public class DmsDbContext : DbContext
         modelBuilder
             .ApplyConfiguration<UserEntity>(new UserConfiguration())
             .ApplyConfiguration<EstateObjectEntity>(new EstateObjectConfiguration())
-            .ApplyConfiguration<DefectEntity>(new DefectConfiguration());
+            .ApplyConfiguration<DefectEntity>(new DefectConfiguration())
+            .ApplyConfiguration<DefectCommentEntity>(new DefectCommentConfiguration());
     }
 
     public DmsDbContext(DbContextOptions<DmsDbContext> options) : base(options) { }

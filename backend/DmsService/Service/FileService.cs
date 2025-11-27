@@ -98,16 +98,6 @@ public class FileService
         return newFileName;
     }
 
-    public async Task<List<string>> GetAllOfEntity(Guid entityId)
-    {
-        return await _eoImageRepository.GetAllOfEstateObject(entityId);
-    }
-
-    public async Task<string?> GetFirstOfEntity(Guid entityId)
-    {
-        return await _eoImageRepository.GetFirstOfEntity(entityId);
-    }
-
     public string GetFullPath(string filename)
     {
         return Path.Combine(_fileOptions.RootStore, filename);

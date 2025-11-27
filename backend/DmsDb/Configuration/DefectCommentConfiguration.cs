@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DmsDb.Configuration;
 
-public class CommentConfiguration : IEntityTypeConfiguration<DefectCommentEntity>
+public class DefectCommentConfiguration : IEntityTypeConfiguration<DefectCommentEntity>
 {
     public void Configure(EntityTypeBuilder<DefectCommentEntity> builder)
     {

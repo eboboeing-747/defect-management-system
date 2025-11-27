@@ -43,16 +43,13 @@ public class EstateObjectService
     public async Task<List<EstateObjectCard>> GetAllOfUser(Guid userId)
     {
         List<EstateObjectEntity> estateObjects = await _estateObjectRepository.GetByUserId(userId);
-
-        foreach (var eo in estateObjects)
-            Console.WriteLine($"[GetAllOfUser] amount of images: {eo.Images.Count}");
-
         List<EstateObjectCard> cards = [];
 
         foreach (EstateObjectEntity entity in estateObjects) {
             List<EstateObjectImageEntity> images = entity.Images;
 
-            EstateObjectCard card = new EstateObjectCard {
+            EstateObjectCard card = new()
+            {
                 Id = entity.Id,
                 ImagePath = images.Count < 1 ? null : images[0].Path,
                 Name = entity.Name,
@@ -71,8 +68,6 @@ public class EstateObjectService
 
         if (estateObject == null)
             return null;
-
-        Console.WriteLine($"[IMAGES QUERIED] {estateObject.Images.Count}");
 
         return new EstateObjectReturn {
             Images = estateObject.Images.ConvertAll(i => i.Path),
