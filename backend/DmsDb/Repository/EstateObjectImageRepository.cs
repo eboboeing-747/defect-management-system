@@ -13,12 +13,30 @@ public class EstateObjectImageRepository
         this._dbContext = dbContext;
     }
 
-    public async Task Create(string filename, Guid entityId)
+    public async Task<bool> Create(Guid estateObjectId, List<EstateObjectImageEntity> images)
+    {
+        EstateObjectEntity? estateObject = await _dbContext.EstateObjects
+            .Where(eo => eo.Id == estateObjectId)
+            .FirstOrDefaultAsync();
+
+        if (estateObject == null)
+            return false;
+
+        foreach (EstateObjectImageEntity image in images)
+            image.EstateObjectId = estateObject.Id;
+
+        await _dbContext.EstateObjectImages.AddRangeAsync(images);
+        await _dbContext.SaveChangesAsync();
+
+        return true;
+    }
+
+    public async Task Create(string filename, Guid estateObjectId)
     {
         EstateObjectImageEntity image = new EstateObjectImageEntity
         {
             Id = Guid.NewGuid(),
-            EstateObjectId = entityId,
+            EstateObjectId = estateObjectId,
             Path = filename
         };
 

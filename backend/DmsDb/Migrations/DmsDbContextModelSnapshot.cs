@@ -22,7 +22,31 @@ namespace DmsDb.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("DmsDb.Entity.CommentEntity", b =>
+            modelBuilder.Entity("DefectCommentEntityDefectEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CommentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("DefectCommentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("DefectId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DefectCommentId");
+
+                    b.HasIndex("DefectId");
+
+                    b.ToTable("DefectCommentEntityDefectEntity");
+                });
+
+            modelBuilder.Entity("DmsDb.Entity.DefectCommentEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,7 +67,7 @@ namespace DmsDb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Comments");
+                    b.ToTable("DefectComments");
                 });
 
             modelBuilder.Entity("DmsDb.Entity.DefectEntity", b =>
@@ -91,7 +115,7 @@ namespace DmsDb.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("DefectId")
+                    b.Property<Guid>("DefectId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
@@ -142,9 +166,6 @@ namespace DmsDb.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("EstateObjectEntityId")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("EstateObjectId")
                         .HasColumnType("uuid");
 
@@ -157,7 +178,7 @@ namespace DmsDb.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EstateObjectEntityId");
+                    b.HasIndex("EstateObjectId");
 
                     b.ToTable("EstateObjectImages");
                 });
@@ -205,17 +226,42 @@ namespace DmsDb.Migrations
 
             modelBuilder.Entity("EstateObjectEntityUserEntity", b =>
                 {
-                    b.Property<Guid>("EstateObjectsId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("UsersId")
+                    b.Property<Guid>("EstateObjectId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("EstateObjectsId", "UsersId");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
-                    b.HasIndex("UsersId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("EstateObjectId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("EstateObjectEntityUserEntity");
+                });
+
+            modelBuilder.Entity("DefectCommentEntityDefectEntity", b =>
+                {
+                    b.HasOne("DmsDb.Entity.DefectCommentEntity", "DefectComment")
+                        .WithMany("DefectToDefectComments")
+                        .HasForeignKey("DefectCommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DmsDb.Entity.DefectEntity", "Defect")
+                        .WithMany("DefectToDefectComments")
+                        .HasForeignKey("DefectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Defect");
+
+                    b.Navigation("DefectComment");
                 });
 
             modelBuilder.Entity("DmsDb.Entity.DefectEntity", b =>
@@ -241,35 +287,52 @@ namespace DmsDb.Migrations
                 {
                     b.HasOne("DmsDb.Entity.DefectEntity", "Defect")
                         .WithMany("Images")
-                        .HasForeignKey("DefectId");
+                        .HasForeignKey("DefectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Defect");
                 });
 
             modelBuilder.Entity("DmsDb.Entity.EstateObjectImageEntity", b =>
                 {
-                    b.HasOne("DmsDb.Entity.EstateObjectEntity", null)
+                    b.HasOne("DmsDb.Entity.EstateObjectEntity", "EstateObject")
                         .WithMany("Images")
-                        .HasForeignKey("EstateObjectEntityId");
+                        .HasForeignKey("EstateObjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EstateObject");
                 });
 
             modelBuilder.Entity("EstateObjectEntityUserEntity", b =>
                 {
-                    b.HasOne("DmsDb.Entity.EstateObjectEntity", null)
-                        .WithMany()
-                        .HasForeignKey("EstateObjectsId")
+                    b.HasOne("DmsDb.Entity.EstateObjectEntity", "EstateObject")
+                        .WithMany("UserToEstateObjects")
+                        .HasForeignKey("EstateObjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DmsDb.Entity.UserEntity", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
+                    b.HasOne("DmsDb.Entity.UserEntity", "User")
+                        .WithMany("UserToEstateObjects")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("EstateObject");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DmsDb.Entity.DefectCommentEntity", b =>
+                {
+                    b.Navigation("DefectToDefectComments");
                 });
 
             modelBuilder.Entity("DmsDb.Entity.DefectEntity", b =>
                 {
+                    b.Navigation("DefectToDefectComments");
+
                     b.Navigation("Images");
                 });
 
@@ -278,11 +341,15 @@ namespace DmsDb.Migrations
                     b.Navigation("Defects");
 
                     b.Navigation("Images");
+
+                    b.Navigation("UserToEstateObjects");
                 });
 
             modelBuilder.Entity("DmsDb.Entity.UserEntity", b =>
                 {
                     b.Navigation("Defects");
+
+                    b.Navigation("UserToEstateObjects");
                 });
 #pragma warning restore 612, 618
         }

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DmsDb.Configuration;
 
-public class CommentConfiguration : IEntityTypeConfiguration<CommentEntity>
+public class CommentConfiguration : IEntityTypeConfiguration<DefectCommentEntity>
 {
-    public void Configure(EntityTypeBuilder<CommentEntity> builder)
+    public void Configure(EntityTypeBuilder<DefectCommentEntity> builder)
     {
         builder.HasKey(comment => comment.Id);
     }

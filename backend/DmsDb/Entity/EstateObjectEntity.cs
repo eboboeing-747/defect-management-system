@@ -8,6 +8,8 @@ public class EstateObjectEntity
     public string Description { get; set; } = string.Empty;
 
     public List<UserEntity> Users { get; } = [];
+    public List<EstateObjectEntityUserEntity> UserToEstateObjects { get; } = [];
+
     public List<DefectEntity> Defects { get; } = [];
     public List<EstateObjectImageEntity> Images { get; } = [];
 }

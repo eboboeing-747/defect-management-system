@@ -20,43 +20,33 @@ public class EstateObjectService
 
     public async Task<HttpStatusCode> Create(Guid userId, EstateObjectObject estateObjectObject)
     {
-        Guid estateObjectId = Guid.NewGuid();
-        // HttpStatusCode status = await _fileService.CreateFiles(estateObjectObject.Files, estateObjectId);
-        //
-        // if (status != HttpStatusCode.OK)
-        //     return status;
+        HttpStatusCode status = _fileService.Validate(estateObjectObject.Files);
 
-        EstateObjectEntity estateObject = new EstateObjectEntity
+        if (status != HttpStatusCode.OK)
+            return status;
+
+        Guid newEstateObjectId = Guid.NewGuid();
+
+        EstateObjectEntity estateObject = new()
         {
-            Id = estateObjectId,
+            Id = newEstateObjectId,
             Address = estateObjectObject.Address,
             Name = estateObjectObject.Name,
             Description = estateObjectObject.Description
         };
 
         await _estateObjectRepository.Create(userId, estateObject);
+        await _fileService.CreateFiles(newEstateObjectId, estateObjectObject.Files);
         return HttpStatusCode.Created;
-
-        // await _userEstateObjectRepository.Add(userId, estateObjectId);
-        //
-        // EstateObjectEntity estateObject = new EstateObjectEntity
-        // {
-        //     Id = estateObjectId,
-        //     Address = estateObjectObject.Address,
-        //     Name = estateObjectObject.Name,
-        //     Description = estateObjectObject.Description
-        // };
-        //
-        // await _estateObjectRepository.Create(estateObject);
-        // return HttpStatusCode.Created;
     }
 
     public async Task<List<EstateObjectCard>> GetAllOfUser(Guid userId)
     {
-        // List<Guid> estateObjectIds = await _userEstateObjectRepository.GetAllWithUser(userId);
-        // List<EstateObjectEntity> entities = await _estateObjectRepository.GetByListOfIds(estateObjectIds);
         List<EstateObjectEntity> estateObjects = await _estateObjectRepository.GetByUserId(userId);
-        Console.WriteLine($"[AMOUNT OF IMAGES RETURED] {estateObjects[0].Images.Count}");
+
+        foreach (var eo in estateObjects)
+            Console.WriteLine($"[GetAllOfUser] amount of images: {eo.Images.Count}");
+
         List<EstateObjectCard> cards = [];
 
         foreach (EstateObjectEntity entity in estateObjects) {
@@ -81,6 +71,8 @@ public class EstateObjectService
 
         if (estateObject == null)
             return null;
+
+        Console.WriteLine($"[IMAGES QUERIED] {estateObject.Images.Count}");
 
         return new EstateObjectReturn {
             Images = estateObject.Images.ConvertAll(i => i.Path),

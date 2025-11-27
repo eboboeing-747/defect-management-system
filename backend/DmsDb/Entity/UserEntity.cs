@@ -13,5 +13,7 @@ public class UserEntity
     public string Role { get; set; } = string.Empty;
 
     public List<EstateObjectEntity> EstateObjects { get; } = [];
+    public List<EstateObjectEntityUserEntity> UserToEstateObjects { get; } = [];
+
     public List<DefectEntity> Defects { get; } = [];
 }

@@ -14,12 +14,18 @@ public class UserConfiguration : IEntityTypeConfiguration<UserEntity>
         builder
             .HasMany(u => u.EstateObjects)
             .WithMany(eo => eo.Users)
-            .UsingEntity<UserEstateObjectEntity>();
+            .UsingEntity<EstateObjectEntityUserEntity>(
+                "EstateObjectEntityUserEntity",
+                r => r.HasOne<EstateObjectEntity>(jt => jt.EstateObject)
+                    .WithMany(eo => eo.UserToEstateObjects),
+                l => l.HasOne<UserEntity>(jt => jt.User)
+                    .WithMany(u => u.UserToEstateObjects)
+            );
 
         builder
             .HasMany(u => u.Defects)
             .WithOne(d => d.OriginalPoster)
             .HasForeignKey(d => d.OriginalPosterId)
-            .IsRequired(false);
+            .IsRequired();
     }
 }

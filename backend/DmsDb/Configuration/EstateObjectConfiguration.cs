@@ -9,22 +9,18 @@ public class EstateObjectConfiguration : IEntityTypeConfiguration<EstateObjectEn
     public void Configure(EntityTypeBuilder<EstateObjectEntity> builder)
     {
         builder
-            .HasKey(eoe => eoe.Id);
-
-        builder
-            .HasMany(eo => eo.Users)
-            .WithMany(u => u.EstateObjects);
+            .HasKey(eo => eo.Id);
 
         builder
             .HasMany(eo => eo.Defects)
             .WithOne(d => d.EstateObject)
             .HasForeignKey(d => d.EstateObjectId)
-            .IsRequired(false);
+            .IsRequired();
 
         builder
             .HasMany(eo => eo.Images)
-            .WithOne(i => i.EstateObject)
-            .HasForeignKey(i => i.EstateObjectId)
-            .IsRequired(false);
+            .WithOne(eoi => eoi.EstateObject)
+            .HasForeignKey(oei => oei.EstateObjectId)
+            .IsRequired();
     }
 }

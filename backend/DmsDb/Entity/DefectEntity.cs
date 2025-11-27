@@ -11,7 +11,10 @@ public class DefectEntity
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 
-    required public UserEntity OriginalPoster { get; set; }
-    required public EstateObjectEntity EstateObject { get; set; }
+    public List<DefectCommentEntity> DefectComments { get; } = [];
+    public List<DefectCommentEntityDefectEntity> DefectToDefectComments { get; } = [];
+
+    public UserEntity OriginalPoster { get; set; } = null!;
+    public EstateObjectEntity EstateObject { get; set; } = null!;
     public List<DefectImageEntity> Images { get; set; } = [];
 }

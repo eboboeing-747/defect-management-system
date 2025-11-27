@@ -4,6 +4,7 @@ using System.Net;
 using DmsDb.Repository;
 using Microsoft.AspNetCore.Http;
 using System.Globalization;
+using DmsDb.Entity;
 
 public class FileService
 {
@@ -24,17 +25,17 @@ public class FileService
 
         if (!Directory.Exists(fullDirPath))
         {
-            Console.WriteLine($"[{this.GetType().Name}] attempting to create root store at '{fullDirPath}'");
+            Console.WriteLine($"[{GetType().Name}] attempting to create root store at '{fullDirPath}'");
             Directory.CreateDirectory(fullDirPath);
         }
         else
             return true;
 
         if (Directory.Exists(fullDirPath))
-            Console.WriteLine($"[{this.GetType().Name}] created root store at '{fullDirPath}'");
+            Console.WriteLine($"[{GetType().Name}] created root store at '{fullDirPath}'");
         else
         {
-            Console.WriteLine($"[{this.GetType().Name}] failed to create root store at '{fullDirPath}'");
+            Console.WriteLine($"[{GetType().Name}] failed to create root store at '{fullDirPath}'");
             return false;
         }
 
@@ -65,29 +66,36 @@ public class FileService
         return HttpStatusCode.OK;
     }
 
-    public async Task<HttpStatusCode> CreateFiles(List<IFormFile> files, Guid entityId)
+    public async Task<HttpStatusCode> CreateFiles(Guid estateObjectId, List<IFormFile> files)
     {
-        HttpStatusCode status = Validate(files);
+        List<EstateObjectImageEntity> newImages = [];
 
-        if (status != HttpStatusCode.OK)
-            return status;
+        foreach (IFormFile file in files) {
+            string newFilePath = await CreatePhysicalFile(file);
 
-        foreach (IFormFile file in files)
-            await CreateFile(file, entityId);
+            EstateObjectImageEntity imageEntity = new() {
+                Id = Guid.NewGuid(),
+                Path = newFilePath,
+                Name = null
+            };
 
+            newImages.Add(imageEntity);
+        }
+
+        await _eoImageRepository.Create(estateObjectId, newImages);
         return HttpStatusCode.OK;
     }
 
-    public async Task CreateFile(IFormFile fileToCreate, Guid entityId)
+    public async Task<string> CreatePhysicalFile(IFormFile fileToCreate)
     {
         string dateTime = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm", CultureInfo.InvariantCulture);
         string newFileName = $"[{dateTime}]{Path.GetRandomFileName()}{Path.GetExtension(fileToCreate.FileName)}";
-        string fullPath = Path.Combine(_fileOptions.RootStore, newFileName);
-
-        await _eoImageRepository.Create(newFileName, entityId);
+        string fullPath = GetFullPath(newFileName);
 
         using (FileStream fs = File.Create(fullPath))
             await fileToCreate.CopyToAsync(fs);
+
+        return newFileName;
     }
 
     public async Task<List<string>> GetAllOfEntity(Guid entityId)
@@ -100,9 +108,13 @@ public class FileService
         return await _eoImageRepository.GetFirstOfEntity(entityId);
     }
 
-    // TODO: check if file exists and if not return null
     public string GetFullPath(string filename)
     {
         return Path.Combine(_fileOptions.RootStore, filename);
+    }
+
+    public static bool Exists(string filename)
+    {
+        return Path.Exists(filename);
     }
 }
