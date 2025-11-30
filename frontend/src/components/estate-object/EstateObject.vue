@@ -109,7 +109,7 @@ onMounted(async () => {
                 <i class="hint">description</i>
 
                 <button
-                    class="collapse-extend nf"
+                    class="expand-collapse-chevron nf"
                     :class="[isCollapsedDescription ? 'nf-fa-chevron_down' : 'nf-fa-chevron_up' ]"
                     @click="isCollapsedDescription = !isCollapsedDescription"
                 >
@@ -122,6 +122,13 @@ onMounted(async () => {
             >
                 {{ estateObject?.description }}
             </p>
+
+            <i
+                class="hint expand-collapse-text"
+                @click="isCollapsedDescription = !isCollapsedDescription"
+            >
+                {{ isCollapsedDescription ? 'expand' : 'collapse' }}
+            </i>
         </div>
 
         <div class="defect-list">
@@ -155,7 +162,7 @@ onMounted(async () => {
     flex-direction: row;
 }
 
-.collapse-extend {
+.expand-collapse-chevron {
     padding: 10px;
     border-radius: var(--border-radius);
     color: var(--font);
@@ -163,14 +170,23 @@ onMounted(async () => {
     border: none;
 }
 
-.collapse-extend:hover {
+.expand-collapse-chevron:hover {
     background-color: var(--font);
     color: var(--background);
 }
 
-.collapse-extend:active {
+.expand-collapse-chevron:active {
     background-color: var(--background);
     color: var(--font);
+}
+
+.expand-collapse-text:hover {
+    color: var(--font);
+    cursor: pointer;
+}
+
+.expand-collapse-text:active {
+    color: var(--border-color);
 }
 
 .description {
@@ -208,7 +224,7 @@ onMounted(async () => {
 
 .hint {
     color: var(--hint);
-    margin: 0px;
+    margin: 10px 0px;
 }
 
 .address {
