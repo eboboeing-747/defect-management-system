@@ -65,7 +65,10 @@ onMounted(async () => {
         <div
             v-if="estateObject !== null"
         >
-            <Carousel v-slot="props">
+            <Carousel
+                v-slot="props"
+                v-if="estateObject.images.length > 0"
+            >
                 <CarouselItem
                     :current="props.current"
                     :length="props.length"
@@ -78,6 +81,13 @@ onMounted(async () => {
                     />
                 </CarouselItem>
             </Carousel>
+
+            <div
+                v-else
+                class="no-images"
+            >
+                this estate object has no images
+            </div>
         </div>
 
         <div v-else>
@@ -128,6 +138,14 @@ onMounted(async () => {
     aspect-ratio: 4 / 3;
     object-fit: cover;
 
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+}
+
+.no-images {
+    text-align: center;
+    font-size: 32px;
+    padding: 8%;
     border: 2px solid var(--border-color);
     border-radius: var(--border-radius);
 }

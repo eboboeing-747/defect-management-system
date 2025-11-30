@@ -29,7 +29,7 @@ export const useUserDataStore = defineStore('userdata', () => {
         middleName.value = user.middleName;
         lastName.value = user.lastName;
 
-        if (user.pfpPath == '')
+        if (user.pfpPath === '' || user.pfpPath === null)
             pfpPath.value = EMPTY_PFP;
         else
             pfpPath.value = user.pfpPath;
